@@ -90,9 +90,11 @@ const BookingStep2 = () => {
   const [searchParams] = useSearchParams();
   const isRTL = language === 'ar';
 
-  const venueIdFromUrl = searchParams.get('venue');
+  const venueFromUrl = searchParams.get('venue');
+  const facilityFromUrl = searchParams.get('facility');
   
-  const [selectedVenueId, setSelectedVenueId] = useState(venueIdFromUrl || 'terra-auditorium');
+  // Use facility ID if provided, otherwise fall back to venue (for backward compatibility)
+  const [selectedVenueId, setSelectedVenueId] = useState(facilityFromUrl || venueFromUrl || '');
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [startTime, setStartTime] = useState('09:00');
@@ -141,7 +143,10 @@ const BookingStep2 = () => {
   const availability = startDate ? checkAvailability() : null;
 
   const handleBack = () => {
-    navigate('/booking/step1' + (venueIdFromUrl ? `?venue=${venueIdFromUrl}` : ''));
+    const params = new URLSearchParams();
+    if (venueFromUrl) params.set('venue', venueFromUrl);
+    if (facilityFromUrl) params.set('facility', facilityFromUrl);
+    navigate('/booking/step1' + (params.toString() ? `?${params.toString()}` : ''));
   };
 
   const handleNext = () => {
