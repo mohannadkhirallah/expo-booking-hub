@@ -14,6 +14,7 @@ import MyBookings from "./pages/MyBookings";
 import Guidelines from "./pages/Guidelines";
 import BookingStep1 from "./pages/BookingStep1";
 import BookingStep2 from "./pages/BookingStep2";
+import BookingStep3 from "./pages/BookingStep3";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="/guidelines" element={<Guidelines />} />
               <Route path="/booking/step1" element={<BookingStep1 />} />
               <Route path="/booking/step2" element={<BookingStep2 />} />
+              <Route path="/booking/step3" element={<BookingStep3 />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
