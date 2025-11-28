@@ -72,7 +72,7 @@ const HeroSection = () => {
               </Button>
             </Link>
             <Link to="/login">
-              <Button variant="heroOutline" size="xl">
+              <Button variant="heroOutline" size="xl" className="backdrop-blur-md bg-white/10">
                 {t('hero.startBooking')}
               </Button>
             </Link>
