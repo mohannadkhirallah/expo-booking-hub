@@ -654,12 +654,6 @@ const BookingDetails = () => {
 
           {/* Bottom Actions */}
           <div className={cn("flex flex-wrap gap-4 justify-center", isRTL && "flex-row-reverse")}>
-            <Button variant="outline" asChild>
-              <Link to="/my-bookings">
-                <ArrowLeft className="w-4 h-4 me-2 rtl:rotate-180" />
-                {isRTL ? 'العودة إلى حجوزاتي' : 'Back to My Bookings'}
-              </Link>
-            </Button>
             <Button asChild>
               <Link to="/venues">
                 <Plus className="w-4 h-4 me-2" />
