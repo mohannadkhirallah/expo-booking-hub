@@ -1,0 +1,72 @@
+import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { cn } from '@/lib/utils';
+
+const Footer = () => {
+  const { t, isRTL } = useLanguage();
+
+  const links = [
+    { to: '/guidelines', label: t('footer.faqs') },
+    { to: '/contact', label: t('footer.contact') },
+    { href: 'https://expocitydubai.com', label: t('footer.website'), external: true },
+  ];
+
+  return (
+    <footer className="bg-card border-t border-border">
+      <div className="container mx-auto px-4 py-12">
+        <div className={cn(
+          "flex flex-col md:flex-row items-center justify-between gap-6",
+          isRTL && "md:flex-row-reverse"
+        )}>
+          {/* Logo & Copyright */}
+          <div className={cn(
+            "flex flex-col items-center md:items-start gap-2",
+            isRTL && "md:items-end"
+          )}>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                <span className="text-primary-foreground font-bold">E</span>
+              </div>
+              <span className="font-bold text-foreground">
+                {isRTL ? 'إكسبو سيتي دبي' : 'Expo City Dubai'}
+              </span>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              {t('footer.rights')}
+            </p>
+          </div>
+
+          {/* Links */}
+          <nav className={cn(
+            "flex flex-wrap items-center justify-center gap-4 md:gap-6",
+            isRTL && "flex-row-reverse"
+          )}>
+            {links.map((link) => (
+              link.external ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.to}
+                  to={link.to!}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {link.label}
+                </Link>
+              )
+            ))}
+          </nav>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
