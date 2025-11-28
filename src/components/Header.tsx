@@ -32,9 +32,9 @@ const Header = () => {
             />
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Centered */}
           <nav className={cn(
-            "hidden lg:flex items-center gap-1",
+            "hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2",
             isRTL && "flex-row-reverse"
           )}>
             {navLinks.map((link) => (
