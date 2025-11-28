@@ -102,16 +102,16 @@ export const venues: Venue[] = [
     eventTagsAr: ['معرض', 'فعالية مؤسسية', 'إطلاق منتج', 'منتدى الاستدامة']
   },
   {
-    id: 'surreal-venue',
-    name: 'Surreal Venue',
-    nameAr: 'المكان السريالي',
+    id: 'surreal',
+    name: 'Surreal',
+    nameAr: 'سريال',
     type: 'outdoor',
     category: 'plaza',
-    typeLabel: 'Rooftop Venue',
-    typeLabelAr: 'مكان على السطح',
+    typeLabel: 'Outdoor Water Feature',
+    typeLabelAr: 'معلم مائي خارجي',
     capacity: 300,
-    description: 'A stunning rooftop garden offering panoramic views, ideal for intimate gatherings, receptions, and exclusive events.',
-    descriptionAr: 'حديقة سطحية مذهلة توفر إطلالات بانورامية، مثالية للتجمعات الحميمة والحفلات والفعاليات الحصرية.',
+    description: 'Expo City Dubai\'s staggering water feature blends mesmerising sights and sounds in a synchronised spectacle of music, water and fire. With towering walls of water swept by gushing waves, this vibrant, colourful, energetic space offers a larger-than-life immersive venue for your event.',
+    descriptionAr: 'معلم مائي مذهل في إكسبو سيتي دبي يمزج بين المناظر والأصوات الساحرة في عرض متزامن من الموسيقى والماء والنار. مع جدران شاهقة من الماء تجتاحها الأمواج المتدفقة، توفر هذه المساحة النابضة بالحياة والملونة مكانًا غامرًا لفعاليتك.',
     eventTags: ['Reception', 'Private Event', 'Gala', 'Networking'],
     eventTagsAr: ['حفل استقبال', 'فعالية خاصة', 'حفل', 'تواصل']
   }
