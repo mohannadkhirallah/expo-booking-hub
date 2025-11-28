@@ -323,13 +323,29 @@ const Venues = () => {
           )}
 
           {/* Journey Indicator */}
-          <div className="mt-12 text-center">
-            <p className="text-sm text-muted-foreground mb-2">
-              {isRTL ? 'الخطوة التالية' : 'Next Step'}
-            </p>
-            <div className={cn("flex items-center justify-center gap-2 text-primary", isRTL && "flex-row-reverse")}>
-              <span className="w-6 h-6 rounded-full bg-muted text-muted-foreground text-sm font-bold flex items-center justify-center">2</span>
-              <span className="font-medium">{isRTL ? 'تقديم طلب الحجز' : 'Submit Booking Request'}</span>
+          <div className="mt-12 flex justify-center">
+            <div className={cn(
+              "inline-flex items-center gap-4 px-6 py-4 rounded-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 shadow-lg",
+              isRTL && "flex-row-reverse"
+            )}>
+              <div className="flex items-center gap-2">
+                <span className="w-8 h-8 rounded-full bg-primary/20 text-primary text-sm font-bold flex items-center justify-center">
+                  ✓
+                </span>
+                <span className="text-sm text-muted-foreground font-medium">
+                  {isRTL ? 'الخطوة 1' : 'Step 1'}
+                </span>
+              </div>
+              <div className="w-8 h-0.5 bg-primary/30" />
+              <div className={cn("flex items-center gap-3", isRTL && "flex-row-reverse")}>
+                <span className="w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm font-bold flex items-center justify-center animate-pulse">
+                  2
+                </span>
+                <div className={cn(isRTL && "text-right")}>
+                  <p className="text-xs text-muted-foreground">{isRTL ? 'الخطوة التالية' : 'Next Step'}</p>
+                  <p className="font-semibold text-foreground">{isRTL ? 'تقديم طلب الحجز' : 'Submit Booking Request'}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
