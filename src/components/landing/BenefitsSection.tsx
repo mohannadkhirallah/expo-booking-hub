@@ -34,18 +34,14 @@ const BenefitsSection = () => {
             <div
               key={index}
               className={cn(
-                "group p-8 rounded-2xl bg-card border border-border hover:border-primary/30 transition-all duration-300",
+                "group p-8 rounded-2xl bg-card border border-border hover:border-primary/30 transition-all duration-300 text-center",
                 "hover:shadow-[var(--card-shadow-hover)]",
-                "animate-slide-up opacity-0 [animation-fill-mode:forwards]",
-                isRTL && "text-right"
+                "animate-slide-up opacity-0 [animation-fill-mode:forwards]"
               )}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Icon */}
-              <div className={cn(
-                "w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors",
-                isRTL && "mr-0 ml-auto"
-              )}>
+              <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors mx-auto">
                 <benefit.icon className="w-7 h-7 text-primary" />
               </div>
 

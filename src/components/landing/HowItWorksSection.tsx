@@ -30,7 +30,7 @@ const HowItWorksSection = () => {
     <section id="how-it-works" className="py-16 md:py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className={cn("text-center mb-16", isRTL && "text-right")}>
+        <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             {t('how.title')}
           </h2>
@@ -49,10 +49,7 @@ const HowItWorksSection = () => {
             {steps.map((step, index) => (
               <div
                 key={index}
-                className={cn(
-                  "relative flex flex-col items-center text-center animate-slide-up opacity-0 [animation-fill-mode:forwards]",
-                  isRTL && "md:text-right"
-                )}
+                className="relative flex flex-col items-center text-center animate-slide-up opacity-0 [animation-fill-mode:forwards]"
                 style={{ animationDelay: `${index * 0.15}s` }}
               >
                 {/* Step number & icon */}
