@@ -77,8 +77,8 @@ const BookingConfirmation = () => {
                       ? 'تم حفظ طلبك كمسودة. يمكنك العودة لإكماله في أي وقت من صفحة حجوزاتي.'
                       : 'Your booking has been saved as a draft. You can return to complete it anytime from My Bookings.')
                   : (isRTL 
-                      ? 'تم تقديم طلب الحجز الخاص بك إلى إكسبو سيتي دبي. سيقوم الفريق الداخلي بمراجعة الطلب في Dynamics 365 وسيتم إشعار منظم الفعالية.'
-                      : 'Your booking request has been submitted to Expo City Dubai. Internal teams will review the request in Dynamics 365 and the organizer will be notified.')}
+                      ? 'تم تقديم طلب الحجز الخاص بك إلى إكسبو سيتي دبي. سيقوم الفريق الداخلي بمراجعة الطلب وسيتم إشعار منظم الفعالية.'
+                      : 'Your booking request has been submitted to Expo City Dubai. Internal teams will review the request and the organizer will be notified.')}
               </p>
 
               {/* Reference Number Card */}
