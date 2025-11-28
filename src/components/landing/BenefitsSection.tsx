@@ -24,7 +24,7 @@ const BenefitsSection = () => {
   ];
 
   return (
-    <section className="py-20 md:py-28 bg-background">
+    <section className="py-16 md:py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className={cn(
           "grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8",
