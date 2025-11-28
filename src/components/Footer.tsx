@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
+import expoLogo from '@/assets/expo-logo.png';
 
 const Footer = () => {
   const { t, isRTL } = useLanguage();
@@ -20,17 +21,14 @@ const Footer = () => {
         )}>
           {/* Logo & Copyright */}
           <div className={cn(
-            "flex flex-col items-center md:items-start gap-2",
+            "flex flex-col items-center md:items-start gap-3",
             isRTL && "md:items-end"
           )}>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold">E</span>
-              </div>
-              <span className="font-bold text-foreground">
-                {isRTL ? 'إكسبو سيتي دبي' : 'Expo City Dubai'}
-              </span>
-            </div>
+            <img 
+              src={expoLogo} 
+              alt="Expo City Dubai" 
+              className="h-8 w-auto"
+            />
             <p className="text-sm text-muted-foreground">
               {t('footer.rights')}
             </p>
