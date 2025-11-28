@@ -32,7 +32,8 @@ import {
   XCircle,
   Send,
   Building2,
-  ChevronRight
+  ChevronRight,
+  ArrowLeft
 } from 'lucide-react';
 
 const Guidelines = () => {
@@ -181,10 +182,17 @@ const Guidelines = () => {
           
           {/* Intro Section */}
           <section className={cn("mb-16", isRTL && "text-right")}>
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              {isRTL ? 'الإرشادات وعملية الحجز' : 'Guidelines & Booking Process'}
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-3xl">
+            <div className={cn("flex items-center gap-4 mb-4", isRTL && "flex-row-reverse")}>
+              <Button variant="ghost" size="icon" asChild>
+                <Link to="/">
+                  <ArrowLeft className="w-5 h-5 rtl:rotate-180" />
+                </Link>
+              </Button>
+              <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+                {isRTL ? 'الإرشادات وعملية الحجز' : 'Guidelines & Booking Process'}
+              </h1>
+            </div>
+            <p className={cn("text-lg text-muted-foreground max-w-3xl", isRTL ? "mr-14" : "ml-14")}>
               {isRTL 
                 ? 'يتيح لك هذا البوابة تقديم طلبات حجز الأماكن في إكسبو سيتي دبي. تتم معالجة الطلبات من قبل فرقنا الداخلية عبر أنظمة إدارة متكاملة لضمان تجربة سلسة وآمنة لفعاليتك.'
                 : 'This portal allows you to submit venue booking requests for Expo City Dubai. Requests are processed by our internal teams through integrated management systems to ensure a smooth and secure experience for your event.'}
