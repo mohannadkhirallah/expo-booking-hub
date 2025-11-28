@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Sun, Moon, Globe, Menu, X, Lock } from 'lucide-react';
+import { Sun, Moon, Globe, Menu, X, Lock, User } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -17,7 +17,6 @@ const Header = () => {
     { to: '/', label: t('nav.home') },
     { to: '/venues', label: t('nav.explore') },
     { to: '/my-bookings', label: t('nav.myBookings'), requiresAuth: true },
-    { to: '/login', label: t('nav.signIn') },
   ];
 
   return (
@@ -48,6 +47,12 @@ const Header = () => {
                 </Button>
               </Link>
             ))}
+            {/* Sign In Icon Button */}
+            <Link to="/login">
+              <Button variant="ghost" size="icon" aria-label={t('nav.signIn')}>
+                <User className="w-5 h-5" />
+              </Button>
+            </Link>
           </nav>
 
           {/* Right Controls */}
@@ -110,6 +115,13 @@ const Header = () => {
                   </Button>
                 </Link>
               ))}
+              {/* Sign In for mobile */}
+              <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start gap-2">
+                  <User className="w-4 h-4" />
+                  {t('nav.signIn')}
+                </Button>
+              </Link>
             </div>
           </nav>
         )}
