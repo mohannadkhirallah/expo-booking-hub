@@ -44,7 +44,7 @@ const HeroSection = () => {
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-slide-up text-gradient leading-relaxed">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-slide-up text-gradient leading-tight pb-2">
             {t('hero.title')}
           </h1>
 
