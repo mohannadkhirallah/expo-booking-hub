@@ -3,29 +3,22 @@ import { ArrowRight, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
+import heroBg from '@/assets/hero-bg.jpg';
 
 const HeroSection = () => {
   const { t, isRTL } = useLanguage();
 
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Video Background */}
+      {/* Image Background */}
       <div className="absolute inset-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
+        <img 
+          src={heroBg} 
+          alt="Al Wasl Plaza" 
           className="absolute inset-0 w-full h-full object-cover"
-          poster="https://images.pexels.com/videos/5765906/pexels-photo-5765906.jpeg?auto=compress&cs=tinysrgb&w=1920"
-        >
-          <source 
-            src="https://videos.pexels.com/video-files/5765906/5765906-uhd_2560_1440_25fps.mp4" 
-            type="video/mp4" 
-          />
-        </video>
+        />
         {/* Black overlay for readability */}
-        <div className="absolute inset-0 bg-black/70" />
+        <div className="absolute inset-0 bg-black/60" />
       </div>
       
       {/* Decorative elements */}
