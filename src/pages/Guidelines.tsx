@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -39,6 +39,7 @@ import {
 const Guidelines = () => {
   const { language, isRTL } = useLanguage();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -183,10 +184,8 @@ const Guidelines = () => {
           {/* Intro Section */}
           <section className={cn("mb-16", isRTL && "text-right")}>
             <div className={cn("flex items-center gap-4 mb-4", isRTL && "flex-row-reverse")}>
-              <Button variant="ghost" size="icon" asChild>
-                <Link to="/">
-                  <ArrowLeft className="w-5 h-5 rtl:rotate-180" />
-                </Link>
+              <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+                <ArrowLeft className="w-5 h-5 rtl:rotate-180" />
               </Button>
               <h1 className="text-3xl md:text-4xl font-bold text-foreground">
                 {isRTL ? 'الإرشادات وعملية الحجز' : 'Guidelines & Booking Process'}
