@@ -17,15 +17,15 @@ const HeroSection = () => {
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          poster="https://images.pexels.com/videos/3130182/free-video-3130182.jpg?auto=compress&cs=tinysrgb&w=1920"
+          poster="https://images.pexels.com/videos/5765906/pexels-photo-5765906.jpeg?auto=compress&cs=tinysrgb&w=1920"
         >
           <source 
-            src="https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4" 
+            src="https://videos.pexels.com/video-files/5765906/5765906-uhd_2560_1440_25fps.mp4" 
             type="video/mp4" 
           />
         </video>
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-background/80 dark:bg-background/85" />
+        {/* Black overlay for readability */}
+        <div className="absolute inset-0 bg-black/70" />
       </div>
       
       {/* Decorative elements */}
