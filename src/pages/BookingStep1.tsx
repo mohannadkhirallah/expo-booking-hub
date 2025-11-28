@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { venues, sampleUser, getVenueById } from '@/data/venueData';
+import { venues, sampleUser, getVenueById, getVenueSiteById, getFacilityById, getMaxCapacity, formatCapacity } from '@/data/venueData';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -21,7 +21,7 @@ import {
 import { cn } from '@/lib/utils';
 import { 
   User, Building2, Mail, Phone, Calendar, Users, 
-  MapPin, ChevronRight, ChevronLeft, Check, Star
+  MapPin, ChevronRight, ChevronLeft, Check, Star, Layers
 } from 'lucide-react';
 
 // Progress Step Component
@@ -88,6 +88,7 @@ const BookingStep1 = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const venueIdFromUrl = searchParams.get('venue');
+  const facilityIdFromUrl = searchParams.get('facility');
 
   // Form state
   const [eventTitle, setEventTitle] = useState('');
@@ -98,7 +99,14 @@ const BookingStep1 = () => {
   const [vipDetails, setVipDetails] = useState('');
   const [selectedVenue, setSelectedVenue] = useState(venueIdFromUrl || '');
 
-  const preselectedVenue = venueIdFromUrl ? getVenueById(venueIdFromUrl) : null;
+  // Get preselected venue site and facility
+  const preselectedVenueSite = venueIdFromUrl ? getVenueSiteById(venueIdFromUrl) : null;
+  const preselectedFacility = (venueIdFromUrl && facilityIdFromUrl) 
+    ? getFacilityById(venueIdFromUrl, facilityIdFromUrl) 
+    : null;
+  
+  // Fallback to legacy venue lookup if no facility specified
+  const preselectedVenue = !preselectedFacility && venueIdFromUrl ? getVenueById(venueIdFromUrl) : null;
 
   const eventTypes = [
     { value: 'conference', labelEn: 'Conference', labelAr: 'مؤتمر' },
@@ -113,11 +121,21 @@ const BookingStep1 = () => {
   const handleNext = () => {
     // In a real app, validate and save state here
     const venueParam = selectedVenue || venueIdFromUrl;
-    navigate('/booking/step2' + (venueParam ? `?venue=${venueParam}` : ''));
+    const facilityParam = facilityIdFromUrl;
+    let queryString = '';
+    if (venueParam) {
+      queryString = `?venue=${venueParam}`;
+      if (facilityParam) {
+        queryString += `&facility=${facilityParam}`;
+      }
+    }
+    navigate('/booking/step2' + queryString);
   };
 
   const handleBack = () => {
-    if (preselectedVenue) {
+    if (preselectedVenueSite) {
+      navigate(`/venues/${preselectedVenueSite.slug}`);
+    } else if (preselectedVenue) {
       navigate(`/venues/${preselectedVenue.id}`);
     } else {
       navigate('/venues');
@@ -359,7 +377,47 @@ const BookingStep1 = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {preselectedVenue ? (
+                {preselectedFacility && preselectedVenueSite ? (
+                  <div className={cn(
+                    "flex items-center gap-4 p-4 rounded-xl bg-primary/5 border border-primary/20",
+                    isRTL && "flex-row-reverse"
+                  )}>
+                    <div className="w-20 h-20 rounded-lg overflow-hidden bg-muted shrink-0">
+                      {preselectedVenueSite.image ? (
+                        <img 
+                          src={preselectedVenueSite.image} 
+                          alt={isRTL ? preselectedFacility.nameAr : preselectedFacility.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <MapPin className="w-8 h-8 text-muted-foreground" />
+                        </div>
+                      )}
+                    </div>
+                    <div className={cn("flex-1", isRTL && "text-right")}>
+                      <div className={cn("flex items-center gap-2 mb-1", isRTL && "flex-row-reverse justify-end")}>
+                        <h4 className="font-semibold text-foreground">
+                          {isRTL ? preselectedFacility.nameAr : preselectedFacility.name}
+                        </h4>
+                        <Badge variant="secondary" className="text-xs">
+                          {isRTL ? 'محدد' : 'Selected'}
+                        </Badge>
+                      </div>
+                      <div className={cn("flex items-center gap-1.5 text-sm text-primary mb-1", isRTL && "flex-row-reverse justify-end")}>
+                        <Layers className="w-3.5 h-3.5" />
+                        <span>{isRTL ? preselectedVenueSite.nameAr : preselectedVenueSite.name}</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        {isRTL ? preselectedFacility.typeLabelAr : preselectedFacility.typeLabel}
+                      </p>
+                      <div className={cn("flex items-center gap-1 mt-1 text-sm", isRTL && "flex-row-reverse justify-end")}>
+                        <Users className="w-4 h-4 text-muted-foreground" />
+                        <span>{getMaxCapacity(preselectedFacility.capacity).toLocaleString()} {isRTL ? 'كحد أقصى' : 'max capacity'}</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : preselectedVenue ? (
                   <div className={cn(
                     "flex items-center gap-4 p-4 rounded-xl bg-primary/5 border border-primary/20",
                     isRTL && "flex-row-reverse"
