@@ -12,6 +12,7 @@ interface LanguageContextType {
 const translations: Record<Language, Record<string, string>> = {
   en: {
     // Navigation
+    'nav.home': 'Home',
     'nav.explore': 'Explore Venues',
     'nav.howItWorks': 'How It Works',
     'nav.myBookings': 'My Bookings',
@@ -51,6 +52,7 @@ const translations: Record<Language, Record<string, string>> = {
   },
   ar: {
     // Navigation
+    'nav.home': 'الرئيسية',
     'nav.explore': 'استكشف الأماكن',
     'nav.howItWorks': 'كيف يعمل',
     'nav.myBookings': 'حجوزاتي',
