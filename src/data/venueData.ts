@@ -86,6 +86,34 @@ export const venues: Venue[] = [
     descriptionAr: 'قاعة مؤتمرات متعددة الاستخدامات مجهزة بأحدث المرافق، مناسبة للاجتماعات المؤسسية والندوات وورش العمل.',
     eventTags: ['Conference', 'Seminar', 'Workshop', 'Corporate Meeting'],
     eventTagsAr: ['مؤتمر', 'ندوة', 'ورشة عمل', 'اجتماع مؤسسي']
+  },
+  {
+    id: 'sustainability-pavilion',
+    name: 'Sustainability Pavilion',
+    nameAr: 'جناح الاستدامة',
+    type: 'indoor',
+    category: 'auditorium',
+    typeLabel: 'Indoor Exhibition Space',
+    typeLabelAr: 'مساحة معرض داخلية',
+    capacity: 600,
+    description: 'An award-winning sustainable building featuring innovative exhibition spaces, perfect for eco-focused events and corporate showcases.',
+    descriptionAr: 'مبنى مستدام حائز على جوائز يضم مساحات عرض مبتكرة، مثالي للفعاليات البيئية والعروض المؤسسية.',
+    eventTags: ['Exhibition', 'Corporate Event', 'Product Launch', 'Sustainability Forum'],
+    eventTagsAr: ['معرض', 'فعالية مؤسسية', 'إطلاق منتج', 'منتدى الاستدامة']
+  },
+  {
+    id: 'garden-in-the-sky',
+    name: 'Garden in the Sky',
+    nameAr: 'الحديقة في السماء',
+    type: 'outdoor',
+    category: 'plaza',
+    typeLabel: 'Rooftop Venue',
+    typeLabelAr: 'مكان على السطح',
+    capacity: 300,
+    description: 'A stunning rooftop garden offering panoramic views, ideal for intimate gatherings, receptions, and exclusive events.',
+    descriptionAr: 'حديقة سطحية مذهلة توفر إطلالات بانورامية، مثالية للتجمعات الحميمة والحفلات والفعاليات الحصرية.',
+    eventTags: ['Reception', 'Private Event', 'Gala', 'Networking'],
+    eventTagsAr: ['حفل استقبال', 'فعالية خاصة', 'حفل', 'تواصل']
   }
 ];
 
