@@ -9,14 +9,27 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Background */}
-      <div 
-        className="absolute inset-0"
-        style={{ background: 'var(--hero-gradient)' }}
-      />
+      {/* Video Background */}
+      <div className="absolute inset-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          poster="https://images.pexels.com/videos/3130182/free-video-3130182.jpg?auto=compress&cs=tinysrgb&w=1920"
+        >
+          <source 
+            src="https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4" 
+            type="video/mp4" 
+          />
+        </video>
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-background/80 dark:bg-background/85" />
+      </div>
       
       {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-primary/10 rounded-full" />
@@ -31,7 +44,7 @@ const HeroSection = () => {
         )}>
           {/* Badge */}
           <div className={cn(
-            "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8 animate-fade-in",
+            "inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8 animate-fade-in backdrop-blur-sm",
             isRTL && "flex-row-reverse"
           )}>
             <Building2 className="w-4 h-4 text-primary" />
