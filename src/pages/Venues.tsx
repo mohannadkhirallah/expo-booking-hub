@@ -304,7 +304,7 @@ const Venues = () => {
 
                     {/* Action Buttons */}
                     <div className={cn("flex gap-3", isRTL && "flex-row-reverse")}>
-                      <Link to={`/venues/${site.id}`} className="flex-1">
+                      <Link to={`/venues/${site.slug}`} className="flex-1">
                         <Button variant="outline" size="sm" className={cn("w-full gap-2", isRTL && "flex-row-reverse")}>
                           <Eye className="w-4 h-4" />
                           {isRTL ? 'عرض المرافق' : 'View Facilities'}

@@ -3,11 +3,12 @@ import { useParams, Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { getVenueById, sampleBookings } from '@/data/venueData';
+import { getVenueSiteBySlug, getMaxCapacity, formatCapacity, Facility } from '@/data/venueData';
 import { 
   Users, MapPin, ArrowLeft, ArrowRight, Zap, Wifi, 
-  Monitor, Mic2, UtensilsCrossed, Car, Shield, Clock,
-  Volume2, Calendar, Heart, CheckCircle2, ChevronLeft, ChevronRight
+  Monitor, Mic2, UtensilsCrossed, Car, Shield,
+  Calendar, Heart, CheckCircle2, ChevronLeft, ChevronRight,
+  Building2, Layers, Home, TreePine
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -17,11 +18,9 @@ import { cn } from '@/lib/utils';
 // Venue images mapping
 const venueImages: Record<string, string> = {
   'al-wasl-plaza': '/src/assets/venues/al-wasl-plaza.jpg',
-  'terra-auditorium': '/src/assets/venues/terra-auditorium.webp',
-  'jubilee-park': '/src/assets/venues/jubilee-park.png',
-  'conference-centre-a': '/src/assets/venues/conference-centre-a.png',
-  'alif': '/src/assets/venues/alif.png',
-  'surreal': '/src/assets/venues/surreal.png',
+  'terra': '/src/assets/venues/terra-auditorium.webp',
+  'mobility-district': '/src/assets/venues/alif.png',
+  'conference-parks': '/src/assets/venues/jubilee-park.png',
 };
 
 // Amenities data
@@ -52,7 +51,7 @@ const venueGuidelines: Record<string, { en: string[]; ar: string[] }> = {
       'استخدام الطائرات بدون طيار يتطلب تصريح خاص',
     ],
   },
-  'terra-auditorium': {
+  'terra': {
     en: [
       'Seating configuration changes require 48-hour notice',
       'Technical rehearsal mandatory for performances',
@@ -86,52 +85,13 @@ const venueGuidelines: Record<string, { en: string[]; ar: string[] }> = {
   },
 };
 
-// Generate calendar data for availability
-const generateCalendarData = (venueId: string) => {
-  const today = new Date();
-  const currentMonth = today.getMonth();
-  const currentYear = today.getFullYear();
-  
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
-  
-  const calendarDays: { day: number; status: 'available' | 'busy' | 'booked' }[] = [];
-  
-  for (let i = 1; i <= daysInMonth; i++) {
-    // Check if there's a booking for this venue on this day
-    const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-    const hasBooking = sampleBookings.some(b => b.facilityId === venueId && b.date === dateStr);
-    
-    let status: 'available' | 'busy' | 'booked' = 'available';
-    if (hasBooking) {
-      status = 'booked';
-    } else if (i % 7 === 0 || i % 5 === 0) {
-      status = 'busy'; // Mark some days as busy for demo
-    }
-    
-    calendarDays.push({ day: i, status });
-  }
-  
-  return { calendarDays, firstDayOfMonth, currentMonth, currentYear };
-};
-
 const VenueDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id: venueSlug } = useParams<{ id: string }>();
   const { language, isRTL } = useLanguage();
-  const venue = getVenueById(id || '');
+  const venueSite = getVenueSiteBySlug(venueSlug || '');
   const [isShortlisted, setIsShortlisted] = useState(false);
 
-  const monthNames = {
-    en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-    ar: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
-  };
-
-  const dayNames = {
-    en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-    ar: ['أحد', 'إثن', 'ثلا', 'أرب', 'خمي', 'جمع', 'سبت'],
-  };
-
-  if (!venue) {
+  if (!venueSite) {
     return (
       <div className="min-h-screen flex flex-col">
         <Header />
@@ -156,9 +116,9 @@ const VenueDetail = () => {
     );
   }
 
-  const { calendarDays, firstDayOfMonth, currentMonth, currentYear } = generateCalendarData(venue.id);
-  const guidelines = venueGuidelines[venue.id] || venueGuidelines.default;
-  const venueImage = venueImages[venue.id];
+  const guidelines = venueGuidelines[venueSite.id] || venueGuidelines.default;
+  const venueImage = venueImages[venueSite.id] || venueSite.image;
+  const totalCapacity = venueSite.facilities.reduce((sum, f) => sum + getMaxCapacity(f.capacity), 0);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -185,7 +145,7 @@ const VenueDetail = () => {
                 {venueImage ? (
                   <img 
                     src={venueImage} 
-                    alt={language === 'ar' ? venue.nameAr : venue.name}
+                    alt={language === 'ar' ? venueSite.nameAr : venueSite.name}
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -196,40 +156,66 @@ const VenueDetail = () => {
                 <Badge 
                   variant="secondary" 
                   className={cn(
-                    "absolute top-4 bg-background/90 backdrop-blur-sm",
+                    "absolute top-4 bg-background/90 backdrop-blur-sm gap-1",
                     isRTL ? "right-4" : "left-4"
                   )}
                 >
-                  {venue.type === 'indoor' 
-                    ? (isRTL ? 'داخلي' : 'Indoor') 
-                    : (isRTL ? 'خارجي' : 'Outdoor')}
+                  <Layers className="w-3 h-3" />
+                  {venueSite.facilities.length} {isRTL ? 'مرافق' : 'spaces'}
                 </Badge>
               </div>
 
-              {/* Venue Info */}
+              {/* Venue Site Info */}
               <div className={cn(isRTL && "text-right")}>
                 <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-                  {language === 'ar' ? venue.nameAr : venue.name}
+                  {language === 'ar' ? venueSite.nameAr : venueSite.name}
                 </h1>
                 <p className="text-lg text-primary font-medium mb-4">
-                  {language === 'ar' ? venue.typeLabelAr : venue.typeLabel}
+                  {isRTL ? 'إكسبو سيتي دبي' : 'Expo City Dubai'}
                 </p>
 
                 <div className={cn("flex items-center gap-6 mb-6 flex-wrap", isRTL && "flex-row-reverse justify-end")}>
                   <div className={cn("flex items-center gap-2", isRTL && "flex-row-reverse")}>
                     <Users className="w-5 h-5 text-primary" />
-                    <span className="font-medium">{venue.capacity.toLocaleString()} {isRTL ? 'شخص' : 'guests'}</span>
+                    <span className="font-medium">
+                      {isRTL ? `حتى ${totalCapacity.toLocaleString()} شخص` : `Up to ${totalCapacity.toLocaleString()} guests`}
+                    </span>
                   </div>
                   <div className={cn("flex items-center gap-2", isRTL && "flex-row-reverse")}>
-                    <MapPin className="w-5 h-5 text-primary" />
-                    <span className="font-medium">{isRTL ? 'إكسبو سيتي دبي' : 'Expo City Dubai'}</span>
+                    <Building2 className="w-5 h-5 text-primary" />
+                    <span className="font-medium">
+                      {venueSite.facilities.length} {isRTL ? 'مرافق متاحة' : 'facilities available'}
+                    </span>
                   </div>
                 </div>
 
                 <p className="text-muted-foreground leading-relaxed text-lg">
-                  {language === 'ar' ? venue.descriptionAr : venue.description}
+                  {language === 'ar' ? venueSite.descriptionAr : venueSite.description}
                 </p>
               </div>
+
+              {/* Available Facilities Section */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className={cn("flex items-center gap-2", isRTL && "flex-row-reverse text-right")}>
+                    <Layers className="w-5 h-5 text-primary" />
+                    {isRTL ? 'المرافق المتاحة' : 'Available Facilities / Spaces'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {venueSite.facilities.map((facility) => (
+                      <FacilityCard 
+                        key={facility.id} 
+                        facility={facility} 
+                        venueSiteId={venueSite.id}
+                        isRTL={isRTL} 
+                        language={language} 
+                      />
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
 
               {/* Amenities */}
               <Card>
@@ -294,122 +280,69 @@ const VenueDetail = () => {
 
             {/* Right Column - Sidebar */}
             <div className="lg:col-span-1 space-y-6">
-              {/* Availability Calendar */}
               <Card className="sticky top-28">
                 <CardHeader className="pb-3">
                   <CardTitle className={cn("flex items-center gap-2", isRTL && "flex-row-reverse text-right")}>
                     <Calendar className="w-5 h-5 text-primary" />
-                    {isRTL ? 'نظرة على التوفر' : 'Availability Overview'}
+                    {isRTL ? 'ملخص الموقع' : 'Site Overview'}
                   </CardTitle>
-                  <p className={cn("text-sm text-muted-foreground", isRTL && "text-right")}>
-                    {isRTL ? monthNames.ar[currentMonth] : monthNames.en[currentMonth]} {currentYear}
-                  </p>
                 </CardHeader>
                 <CardContent>
-                  {/* Calendar Grid */}
-                  <div className="grid grid-cols-7 gap-1 mb-4">
-                    {(isRTL ? dayNames.ar : dayNames.en).map((day, index) => (
-                      <div key={index} className="text-center text-xs font-medium text-muted-foreground py-2">
-                        {day}
-                      </div>
-                    ))}
-                    {/* Empty cells for days before the first day of month */}
-                    {Array.from({ length: firstDayOfMonth }).map((_, index) => (
-                      <div key={`empty-${index}`} className="h-8" />
-                    ))}
-                    {/* Calendar days */}
-                    {calendarDays.map(({ day, status }) => (
-                      <div
-                        key={day}
-                        className={cn(
-                          "h-8 flex items-center justify-center text-xs rounded-md font-medium",
-                          status === 'available' && "bg-green-500/20 text-green-700 dark:text-green-400",
-                          status === 'busy' && "bg-yellow-500/20 text-yellow-700 dark:text-yellow-400",
-                          status === 'booked' && "bg-red-500/20 text-red-700 dark:text-red-400"
-                        )}
-                      >
-                        {day}
-                      </div>
+                  {/* Typical Events */}
+                  <h4 className={cn("text-sm font-semibold text-foreground mb-3", isRTL && "text-right")}>
+                    {isRTL ? 'فعاليات نموذجية' : 'Typical Events'}
+                  </h4>
+                  <div className={cn("flex flex-wrap gap-2 mb-6", isRTL && "justify-end")}>
+                    {(language === 'ar' ? venueSite.eventTagsAr : venueSite.eventTags).map((tag, i) => (
+                      <Badge key={i} variant="outline" className="text-xs">
+                        {tag}
+                      </Badge>
                     ))}
                   </div>
 
-                  {/* Legend */}
-                  <div className={cn("flex flex-wrap gap-4 text-xs", isRTL && "flex-row-reverse justify-end")}>
-                    <div className={cn("flex items-center gap-1.5", isRTL && "flex-row-reverse")}>
-                      <div className="w-3 h-3 rounded-sm bg-green-500/20" />
-                      <span>{isRTL ? 'متاح' : 'Available'}</span>
+                  {/* Quick Stats */}
+                  <div className={cn("space-y-3 mb-6", isRTL && "text-right")}>
+                    <div className={cn("flex justify-between items-center", isRTL && "flex-row-reverse")}>
+                      <span className="text-sm text-muted-foreground">{isRTL ? 'إجمالي السعة' : 'Total Capacity'}</span>
+                      <span className="font-medium">{totalCapacity.toLocaleString()}</span>
                     </div>
-                    <div className={cn("flex items-center gap-1.5", isRTL && "flex-row-reverse")}>
-                      <div className="w-3 h-3 rounded-sm bg-yellow-500/20" />
-                      <span>{isRTL ? 'مشغول' : 'Busy'}</span>
+                    <div className={cn("flex justify-between items-center", isRTL && "flex-row-reverse")}>
+                      <span className="text-sm text-muted-foreground">{isRTL ? 'المرافق' : 'Facilities'}</span>
+                      <span className="font-medium">{venueSite.facilities.length}</span>
                     </div>
-                    <div className={cn("flex items-center gap-1.5", isRTL && "flex-row-reverse")}>
-                      <div className="w-3 h-3 rounded-sm bg-red-500/20" />
-                      <span>{isRTL ? 'محجوز' : 'Booked'}</span>
+                    <div className={cn("flex justify-between items-center", isRTL && "flex-row-reverse")}>
+                      <span className="text-sm text-muted-foreground">{isRTL ? 'الموقع' : 'Location'}</span>
+                      <span className="font-medium">{isRTL ? 'إكسبو سيتي دبي' : 'Expo City Dubai'}</span>
                     </div>
                   </div>
 
-                  <div className="border-t border-border mt-4 pt-4">
-                    {/* Typical Events */}
-                    <h4 className={cn("text-sm font-semibold text-foreground mb-3", isRTL && "text-right")}>
-                      {isRTL ? 'فعاليات نموذجية' : 'Typical Events'}
-                    </h4>
-                    <div className={cn("flex flex-wrap gap-2 mb-6", isRTL && "justify-end")}>
-                      {(language === 'ar' ? venue.eventTagsAr : venue.eventTags).map((tag, i) => (
-                        <Badge key={i} variant="outline" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    {/* Quick Stats */}
-                    <div className={cn("space-y-3 mb-6", isRTL && "text-right")}>
-                      <div className={cn("flex justify-between items-center", isRTL && "flex-row-reverse")}>
-                        <span className="text-sm text-muted-foreground">{isRTL ? 'السعة' : 'Capacity'}</span>
-                        <span className="font-medium">{venue.capacity.toLocaleString()}</span>
-                      </div>
-                      <div className={cn("flex justify-between items-center", isRTL && "flex-row-reverse")}>
-                        <span className="text-sm text-muted-foreground">{isRTL ? 'النوع' : 'Type'}</span>
-                        <span className="font-medium">
-                          {venue.type === 'indoor' 
-                            ? (isRTL ? 'داخلي' : 'Indoor') 
-                            : (isRTL ? 'خارجي' : 'Outdoor')}
-                        </span>
-                      </div>
-                      <div className={cn("flex justify-between items-center", isRTL && "flex-row-reverse")}>
-                        <span className="text-sm text-muted-foreground">{isRTL ? 'الموقع' : 'Location'}</span>
-                        <span className="font-medium">{isRTL ? 'إكسبو سيتي دبي' : 'Expo City Dubai'}</span>
-                      </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="space-y-3">
-                      <Link to={`/login?redirect=/booking/step1&venue=${venue.id}`} className="block">
-                        <Button variant="hero" size="lg" className={cn("w-full gap-2", isRTL && "flex-row-reverse")}>
-                          <Zap className="w-5 h-5" />
-                          {isRTL ? 'ابدأ الحجز لهذا المكان' : 'Start Booking for this Venue'}
-                        </Button>
-                      </Link>
-                      <Button 
-                        variant={isShortlisted ? "default" : "outline"} 
-                        size="lg" 
-                        className={cn("w-full gap-2", isRTL && "flex-row-reverse")}
-                        onClick={() => setIsShortlisted(!isShortlisted)}
-                      >
-                        <Heart className={cn("w-5 h-5", isShortlisted && "fill-current")} />
-                        {isShortlisted 
-                          ? (isRTL ? 'تمت الإضافة للقائمة المختصرة' : 'Added to Shortlist')
-                          : (isRTL ? 'إضافة للقائمة المختصرة' : 'Add to Shortlist')
-                        }
+                  {/* Action Buttons */}
+                  <div className="space-y-3">
+                    <Link to={`/login?redirect=/booking/step1&venue=${venueSite.id}`} className="block">
+                      <Button variant="hero" size="lg" className={cn("w-full gap-2", isRTL && "flex-row-reverse")}>
+                        <Zap className="w-5 h-5" />
+                        {isRTL ? 'ابدأ الحجز لهذا الموقع' : 'Start Booking for this Site'}
                       </Button>
-                    </div>
-
-                    <p className="text-xs text-muted-foreground text-center mt-4">
-                      {isRTL 
-                        ? 'يتطلب تسجيل الدخول للمتابعة بالحجز'
-                        : 'Sign in required to continue with booking'}
-                    </p>
+                    </Link>
+                    <Button 
+                      variant={isShortlisted ? "default" : "outline"} 
+                      size="lg" 
+                      className={cn("w-full gap-2", isRTL && "flex-row-reverse")}
+                      onClick={() => setIsShortlisted(!isShortlisted)}
+                    >
+                      <Heart className={cn("w-5 h-5", isShortlisted && "fill-current")} />
+                      {isShortlisted 
+                        ? (isRTL ? 'تمت الإضافة للقائمة المختصرة' : 'Added to Shortlist')
+                        : (isRTL ? 'إضافة للقائمة المختصرة' : 'Add to Shortlist')
+                      }
+                    </Button>
                   </div>
+
+                  <p className="text-xs text-muted-foreground text-center mt-4">
+                    {isRTL 
+                      ? 'يتطلب تسجيل الدخول للمتابعة بالحجز'
+                      : 'Sign in required to continue with booking'}
+                  </p>
                 </CardContent>
               </Card>
             </div>
@@ -417,6 +350,73 @@ const VenueDetail = () => {
         </div>
       </main>
       <Footer />
+    </div>
+  );
+};
+
+// Facility Card Component
+interface FacilityCardProps {
+  facility: Facility;
+  venueSiteId: string;
+  isRTL: boolean;
+  language: string;
+}
+
+const FacilityCard = ({ facility, venueSiteId, isRTL, language }: FacilityCardProps) => {
+  const maxCapacity = getMaxCapacity(facility.capacity);
+  
+  return (
+    <div className={cn(
+      "p-4 rounded-xl border border-border bg-muted/30 hover:bg-muted/50 transition-colors",
+      isRTL && "text-right"
+    )}>
+      <div className={cn("flex items-start justify-between gap-4 mb-3", isRTL && "flex-row-reverse")}>
+        <div>
+          <h4 className="font-semibold text-foreground mb-1">
+            {language === 'ar' ? facility.nameAr : facility.name}
+          </h4>
+          <p className="text-sm text-primary">
+            {language === 'ar' ? facility.typeLabelAr : facility.typeLabel}
+          </p>
+        </div>
+        <Badge variant={facility.isIndoor ? "secondary" : "outline"} className="shrink-0">
+          {facility.isIndoor 
+            ? (isRTL ? (
+                <><Home className="w-3 h-3 mr-1" /> داخلي</>
+              ) : (
+                <><Home className="w-3 h-3 mr-1" /> Indoor</>
+              ))
+            : (isRTL ? (
+                <><TreePine className="w-3 h-3 mr-1" /> خارجي</>
+              ) : (
+                <><TreePine className="w-3 h-3 mr-1" /> Outdoor</>
+              ))
+          }
+        </Badge>
+      </div>
+      
+      {facility.description && (
+        <p className="text-sm text-muted-foreground mb-3">
+          {language === 'ar' ? facility.descriptionAr : facility.description}
+        </p>
+      )}
+      
+      <div className={cn("flex items-center gap-4 mb-4 flex-wrap", isRTL && "flex-row-reverse justify-end")}>
+        <div className={cn("flex items-center gap-1.5 text-sm", isRTL && "flex-row-reverse")}>
+          <Users className="w-4 h-4 text-primary" />
+          <span>{maxCapacity.toLocaleString()} {isRTL ? 'كحد أقصى' : 'max'}</span>
+        </div>
+        <span className="text-xs text-muted-foreground">
+          {formatCapacity(facility.capacity, isRTL)}
+        </span>
+      </div>
+      
+      <Link to={`/login?redirect=/booking/step1&venue=${venueSiteId}&facility=${facility.id}`}>
+        <Button variant="hero" size="sm" className={cn("w-full gap-2", isRTL && "flex-row-reverse")}>
+          <Zap className="w-4 h-4" />
+          {isRTL ? 'ابدأ الحجز لهذا المرفق' : 'Start Booking for this Space'}
+        </Button>
+      </Link>
     </div>
   );
 };

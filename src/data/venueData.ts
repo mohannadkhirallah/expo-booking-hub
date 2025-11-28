@@ -30,6 +30,7 @@ export interface Facility {
 
 export interface VenueSite {
   id: string;
+  slug: string;
   name: string;
   nameAr: string;
   description: string;
@@ -78,6 +79,7 @@ export interface Venue {
 export const venueSites: VenueSite[] = [
   {
     id: 'al-wasl-plaza',
+    slug: 'al-wasl-plaza',
     name: 'Al Wasl Plaza',
     nameAr: 'ساحة الوصل',
     description: 'The iconic centerpiece of Expo City Dubai, featuring a stunning trellis dome perfect for large-scale events and spectacular projection shows.',
@@ -126,6 +128,7 @@ export const venueSites: VenueSite[] = [
   },
   {
     id: 'terra',
+    slug: 'terra-sustainability',
     name: 'Terra – Sustainability District',
     nameAr: 'تيرا – منطقة الاستدامة',
     description: 'A state-of-the-art sustainability pavilion offering world-class facilities for conferences, presentations, and eco-conscious events.',
@@ -174,6 +177,7 @@ export const venueSites: VenueSite[] = [
   },
   {
     id: 'mobility-district',
+    slug: 'mobility-district',
     name: 'Mobility District',
     nameAr: 'منطقة التنقل',
     description: 'Alif sparks excitement and curiosity about innovation and the future, offering inspiring spaces for forward-thinking events.',
@@ -222,6 +226,7 @@ export const venueSites: VenueSite[] = [
   },
   {
     id: 'conference-parks',
+    slug: 'conference-and-parks',
     name: 'Conference & Parks',
     nameAr: 'المؤتمرات والحدائق',
     description: 'Versatile conference facilities and beautiful outdoor parks for events of all sizes.',
@@ -313,6 +318,10 @@ export const sampleUser: User = {
 // Helper functions
 export const getVenueSiteById = (id: string): VenueSite | undefined => {
   return venueSites.find(v => v.id === id);
+};
+
+export const getVenueSiteBySlug = (slug: string): VenueSite | undefined => {
+  return venueSites.find(v => v.slug === slug);
 };
 
 export const getFacilityById = (venueSiteId: string, facilityId: string): Facility | undefined => {
