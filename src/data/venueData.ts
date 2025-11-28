@@ -27,7 +27,7 @@ export interface Booking {
   eventNameAr: string;
   venueId: string;
   date: string;
-  status: 'Under Review' | 'Approved' | 'Rejected' | 'Pending Payment';
+  status: 'Draft' | 'Submitted' | 'Under Review' | 'Approved' | 'Rejected' | 'Pending Payment' | 'Completed';
   statusAr: string;
 }
 
@@ -144,10 +144,19 @@ export const sampleBookings: Booking[] = [
     id: 'EVD-2025-002',
     eventName: 'Global Mobility Forum',
     eventNameAr: 'منتدى التنقل العالمي',
-    venueId: 'jubilee-park',
+    venueId: 'alif',
     date: '2025-03-22',
     status: 'Approved',
     statusAr: 'موافق عليه'
+  },
+  {
+    id: 'EVD-2025-003',
+    eventName: 'Sustainable Innovation Summit 2025',
+    eventNameAr: 'قمة الابتكار المستدام 2025',
+    venueId: 'al-wasl-plaza',
+    date: '2025-03-15',
+    status: 'Submitted',
+    statusAr: 'مقدم'
   }
 ];
 
