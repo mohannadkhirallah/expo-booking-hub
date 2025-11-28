@@ -107,85 +107,83 @@ const BookingConfirmation = () => {
               {/* Booking Summary Section */}
               <div className="mb-8">
                 <Separator className="mb-6" />
-                <h3 className={cn("font-semibold text-foreground mb-4", isRTL && "text-right")}>
+                <h3 className={cn("font-semibold text-foreground mb-4 text-lg", isRTL && "text-right")}>
                   {isRTL ? 'ملخص الحجز' : 'Booking Summary'}
                 </h3>
-                <div className="grid gap-4 text-sm">
+                <div className="bg-muted/30 rounded-lg p-4 space-y-4">
                   {/* Event Title */}
-                  <div className={cn("flex items-start gap-3", isRTL && "flex-row-reverse text-right")}>
-                    <FileText className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-muted-foreground mb-1">
-                        {isRTL ? 'عنوان الفعالية' : 'Event Title'}
-                      </p>
-                      <p className="font-medium text-foreground break-words">
-                        {dummyBooking.eventTitle}
-                      </p>
+                  <div className={cn("grid gap-2", isRTL && "text-right")}>
+                    <div className={cn("flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
+                      <FileText className="w-4 h-4" />
+                      <span>{isRTL ? 'عنوان الفعالية' : 'Event Title'}</span>
                     </div>
+                    <p className="font-medium text-foreground">
+                      {dummyBooking.eventTitle}
+                    </p>
                   </div>
+
+                  <Separator />
 
                   {/* Date */}
-                  <div className={cn("flex items-start gap-3", isRTL && "flex-row-reverse text-right")}>
-                    <Calendar className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                    <div className="flex-1">
-                      <p className="text-muted-foreground mb-1">
-                        {isRTL ? 'التاريخ' : 'Date'}
-                      </p>
-                      <p className="font-medium text-foreground">
-                        {new Date(dummyBooking.startDate).toLocaleDateString(isRTL ? 'ar-AE' : 'en-US', { 
-                          year: 'numeric', 
-                          month: 'long', 
-                          day: 'numeric' 
-                        })}
-                        {' - '}
-                        {new Date(dummyBooking.endDate).toLocaleDateString(isRTL ? 'ar-AE' : 'en-US', { 
-                          year: 'numeric', 
-                          month: 'long', 
-                          day: 'numeric' 
-                        })}
-                      </p>
+                  <div className={cn("grid gap-2", isRTL && "text-right")}>
+                    <div className={cn("flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
+                      <Calendar className="w-4 h-4" />
+                      <span>{isRTL ? 'التاريخ' : 'Date'}</span>
                     </div>
+                    <p className="font-medium text-foreground">
+                      {new Date(dummyBooking.startDate).toLocaleDateString(isRTL ? 'ar-AE' : 'en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}
+                      {' - '}
+                      {new Date(dummyBooking.endDate).toLocaleDateString(isRTL ? 'ar-AE' : 'en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}
+                    </p>
                   </div>
+
+                  <Separator />
 
                   {/* Venue */}
-                  <div className={cn("flex items-start gap-3", isRTL && "flex-row-reverse text-right")}>
-                    <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                    <div className="flex-1">
-                      <p className="text-muted-foreground mb-1">
-                        {isRTL ? 'المكان' : 'Venue'}
-                      </p>
-                      <p className="font-medium text-foreground">
-                        {dummyBooking.venue}
-                      </p>
+                  <div className={cn("grid gap-2", isRTL && "text-right")}>
+                    <div className={cn("flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
+                      <MapPin className="w-4 h-4" />
+                      <span>{isRTL ? 'المكان' : 'Venue'}</span>
                     </div>
+                    <p className="font-medium text-foreground">
+                      {dummyBooking.venue}
+                    </p>
                   </div>
+
+                  <Separator />
 
                   {/* Attendees */}
-                  <div className={cn("flex items-start gap-3", isRTL && "flex-row-reverse text-right")}>
-                    <Users className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                    <div className="flex-1">
-                      <p className="text-muted-foreground mb-1">
-                        {isRTL ? 'عدد الحضور' : 'Attendees'}
-                      </p>
-                      <p className="font-medium text-foreground">
-                        {dummyBooking.attendees.toLocaleString(isRTL ? 'ar-AE' : 'en-US')} {isRTL ? 'شخص' : 'people'}
-                      </p>
+                  <div className={cn("grid gap-2", isRTL && "text-right")}>
+                    <div className={cn("flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
+                      <Users className="w-4 h-4" />
+                      <span>{isRTL ? 'عدد الحضور' : 'Attendees'}</span>
                     </div>
+                    <p className="font-medium text-foreground">
+                      {dummyBooking.attendees.toLocaleString(isRTL ? 'ar-AE' : 'en-US')} {isRTL ? 'شخص' : 'people'}
+                    </p>
                   </div>
 
+                  <Separator />
+
                   {/* Status */}
-                  <div className={cn("flex items-start gap-3", isRTL && "flex-row-reverse text-right")}>
-                    <Clock className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                    <div className="flex-1">
-                      <p className="text-muted-foreground mb-1">
-                        {isRTL ? 'الحالة' : 'Status'}
-                      </p>
-                      <p className="font-medium text-foreground">
-                        {isDraft 
-                          ? (isRTL ? 'مسودة' : 'Draft')
-                          : (isRTL ? 'مقدم - قيد المراجعة' : 'Submitted – Pending Review')}
-                      </p>
+                  <div className={cn("grid gap-2", isRTL && "text-right")}>
+                    <div className={cn("flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
+                      <Clock className="w-4 h-4" />
+                      <span>{isRTL ? 'الحالة' : 'Status'}</span>
                     </div>
+                    <p className="font-medium text-foreground">
+                      {isDraft 
+                        ? (isRTL ? 'مسودة' : 'Draft')
+                        : (isRTL ? 'مقدم - قيد المراجعة' : 'Submitted – Pending Review')}
+                    </p>
                   </div>
                 </div>
               </div>
