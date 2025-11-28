@@ -88,9 +88,9 @@ export const venues: Venue[] = [
     eventTagsAr: ['مؤتمر', 'ندوة', 'ورشة عمل', 'اجتماع مؤسسي']
   },
   {
-    id: 'sustainability-pavilion',
-    name: 'Sustainability Pavilion',
-    nameAr: 'جناح الاستدامة',
+    id: 'alif',
+    name: 'Alif',
+    nameAr: 'ألف',
     type: 'indoor',
     category: 'auditorium',
     typeLabel: 'Indoor Exhibition Space',
@@ -102,9 +102,9 @@ export const venues: Venue[] = [
     eventTagsAr: ['معرض', 'فعالية مؤسسية', 'إطلاق منتج', 'منتدى الاستدامة']
   },
   {
-    id: 'garden-in-the-sky',
-    name: 'Garden in the Sky',
-    nameAr: 'الحديقة في السماء',
+    id: 'surreal-venue',
+    name: 'Surreal Venue',
+    nameAr: 'المكان السريالي',
     type: 'outdoor',
     category: 'plaza',
     typeLabel: 'Rooftop Venue',
