@@ -112,7 +112,8 @@ const BookingStep1 = () => {
 
   const handleNext = () => {
     // In a real app, validate and save state here
-    navigate('/booking/step2');
+    const venueParam = selectedVenue || venueIdFromUrl;
+    navigate('/booking/step2' + (venueParam ? `?venue=${venueParam}` : ''));
   };
 
   const handleBack = () => {
