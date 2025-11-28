@@ -14,8 +14,8 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
+    { to: '/', label: t('nav.home') },
     { to: '/venues', label: t('nav.explore') },
-    { to: '/#how-it-works', label: t('nav.howItWorks') },
     { to: '/my-bookings', label: t('nav.myBookings'), requiresAuth: true },
     { to: '/login', label: t('nav.signIn') },
   ];
