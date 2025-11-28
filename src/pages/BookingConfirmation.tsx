@@ -214,14 +214,14 @@ const BookingConfirmation = () => {
                 </Button>
 
                 <Button 
-                  variant="ghost" 
+                  variant="outline" 
                   asChild
-                  size="sm"
+                  size="lg"
                   className="w-full"
                 >
-                  <Link to={`/booking/${referenceNumber}`}>
+                  <Link to="/my-bookings">
                     {isRTL ? 'عرض تفاصيل الحجز' : 'View Booking Details'}
-                    <ExternalLink className="w-3 h-3 ms-2" />
+                    <ExternalLink className="w-4 h-4 ms-2" />
                   </Link>
                 </Button>
               </div>
