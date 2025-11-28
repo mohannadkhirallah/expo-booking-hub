@@ -1,11 +1,13 @@
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
-import { FileText, HelpCircle, Mail } from 'lucide-react';
+import { FileText, HelpCircle, Mail, ArrowLeft, ArrowRight } from 'lucide-react';
 
 const Guidelines = () => {
   const { isRTL } = useLanguage();
+  const navigate = useNavigate();
 
   const sections = [
     {
@@ -36,6 +38,18 @@ const Guidelines = () => {
       <Header />
       <main className="flex-1 pt-24 md:pt-28 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
+          {/* Back Button */}
+          <button
+            onClick={() => navigate(-1)}
+            className={cn(
+              "inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-6",
+              isRTL && "flex-row-reverse"
+            )}
+          >
+            {isRTL ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
+            {isRTL ? 'رجوع' : 'Back'}
+          </button>
+
           <div className={cn("mb-12", isRTL && "text-right")}>
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               {isRTL ? 'الأسئلة الشائعة والإرشادات' : 'FAQs & Guidelines'}
