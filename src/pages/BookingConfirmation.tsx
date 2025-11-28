@@ -113,7 +113,7 @@ const BookingConfirmation = () => {
                 <div className="bg-muted/30 rounded-lg p-4 space-y-4">
                   {/* Event Title */}
                   <div className={cn("grid gap-2", isRTL && "text-right")}>
-                    <div className={cn("flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
+                    <div className={cn("flex items-center gap-2 text-primary text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
                       <FileText className="w-4 h-4" />
                       <span>{isRTL ? 'عنوان الفعالية' : 'Event Title'}</span>
                     </div>
@@ -126,7 +126,7 @@ const BookingConfirmation = () => {
 
                   {/* Date */}
                   <div className={cn("grid gap-2", isRTL && "text-right")}>
-                    <div className={cn("flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
+                    <div className={cn("flex items-center gap-2 text-primary text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
                       <Calendar className="w-4 h-4" />
                       <span>{isRTL ? 'التاريخ' : 'Date'}</span>
                     </div>
@@ -149,7 +149,7 @@ const BookingConfirmation = () => {
 
                   {/* Venue */}
                   <div className={cn("grid gap-2", isRTL && "text-right")}>
-                    <div className={cn("flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
+                    <div className={cn("flex items-center gap-2 text-primary text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
                       <MapPin className="w-4 h-4" />
                       <span>{isRTL ? 'المكان' : 'Venue'}</span>
                     </div>
@@ -162,7 +162,7 @@ const BookingConfirmation = () => {
 
                   {/* Attendees */}
                   <div className={cn("grid gap-2", isRTL && "text-right")}>
-                    <div className={cn("flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
+                    <div className={cn("flex items-center gap-2 text-primary text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
                       <Users className="w-4 h-4" />
                       <span>{isRTL ? 'عدد الحضور' : 'Attendees'}</span>
                     </div>
@@ -175,7 +175,7 @@ const BookingConfirmation = () => {
 
                   {/* Status */}
                   <div className={cn("grid gap-2", isRTL && "text-right")}>
-                    <div className={cn("flex items-center gap-2 text-muted-foreground text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
+                    <div className={cn("flex items-center gap-2 text-primary text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
                       <Clock className="w-4 h-4" />
                       <span>{isRTL ? 'الحالة' : 'Status'}</span>
                     </div>
