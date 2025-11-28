@@ -19,7 +19,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Hero
     'hero.title': 'Expo City Dubai Venue Booking Portal',
-    'hero.subtitle': 'Discover iconic venues and submit booking requests. Our internal teams process all requests through Microsoft Dynamics 365 to ensure seamless event coordination.',
+    'hero.subtitle': 'Discover our iconic venues and bring your next event to life at Expo City Dubai.',
     'hero.exploreBtn': 'Explore Venues',
     'hero.startBooking': 'Start a Booking',
     
@@ -58,7 +58,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Hero
     'hero.title': 'بوابة حجز الأماكن في إكسبو سيتي دبي',
-    'hero.subtitle': 'اكتشف الأماكن المميزة وقدم طلبات الحجز. تقوم فرقنا الداخلية بمعالجة جميع الطلبات من خلال Microsoft Dynamics 365 لضمان تنسيق سلس للفعاليات.',
+    'hero.subtitle': 'اكتشف أماكننا المميزة وأحيِ فعاليتك القادمة في إكسبو سيتي دبي.',
     'hero.exploreBtn': 'استكشف الأماكن',
     'hero.startBooking': 'ابدأ الحجز',
     
