@@ -218,9 +218,19 @@ const Venues = () => {
                 )}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                {/* Venue Image Placeholder */}
-                <div className="relative h-52 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center overflow-hidden">
-                  <MapPin className="w-16 h-16 text-primary/30" />
+                {/* Venue Image */}
+                <div className="relative h-52 bg-gradient-to-br from-primary/20 to-primary/5 overflow-hidden">
+                  {venue.image ? (
+                    <img 
+                      src={venue.image} 
+                      alt={language === 'ar' ? venue.nameAr : venue.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <MapPin className="w-16 h-16 text-primary/30" />
+                    </div>
+                  )}
                   {/* Type Badge */}
                   <Badge 
                     variant="secondary" 
