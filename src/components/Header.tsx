@@ -6,6 +6,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
 import expoLogo from '@/assets/expo-logo.png';
+import expoLogoWhite from '@/assets/expo-logo-white.png';
 
 const Header = () => {
   const { language, setLanguage, t, isRTL } = useLanguage();
@@ -26,7 +27,7 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img 
-              src={expoLogo} 
+              src={isDark ? expoLogoWhite : expoLogo} 
               alt="Expo City Dubai" 
               className="h-10 md:h-12 w-auto"
             />
