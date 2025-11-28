@@ -19,7 +19,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { getVenueById } from '@/data/venueData';
+import { getVenueSiteById, getFacilityById, venueSites } from '@/data/venueData';
 
 const BookingConfirmation = () => {
   const { language } = useLanguage();
@@ -31,15 +31,18 @@ const BookingConfirmation = () => {
   const isDraft = status === 'draft';
 
   // Dummy booking data for display
-  const venueId = searchParams.get('venue') || 'al-wasl-plaza';
-  const venue = getVenueById(venueId);
+  const venueSiteId = searchParams.get('venue') || 'al-wasl-plaza';
+  const facilityId = searchParams.get('facility') || 'al-wasl-main-dome';
+  const site = getVenueSiteById(venueSiteId);
+  const facility = getFacilityById(venueSiteId, facilityId);
   const dummyBooking = {
     eventTitle: 'Sustainable Innovation Summit 2025',
     eventType: 'Conference',
     startDate: '2025-03-15',
     endDate: '2025-03-17',
     attendees: 500,
-    venue: venue?.name || 'Al Wasl Plaza'
+    site: site?.name || 'Al Wasl Plaza',
+    facility: facility?.name || 'Al Wasl Plaza – Main Dome'
   };
 
   return (
@@ -151,10 +154,13 @@ const BookingConfirmation = () => {
                   <div className={cn("grid gap-2", isRTL && "text-right")}>
                     <div className={cn("flex items-center gap-2 text-primary text-xs font-medium uppercase tracking-wide", isRTL && "flex-row-reverse")}>
                       <MapPin className="w-4 h-4" />
-                      <span>{isRTL ? 'المكان' : 'Venue'}</span>
+                      <span>{isRTL ? 'الموقع / المرفق' : 'Site / Facility'}</span>
                     </div>
                     <p className="font-medium text-foreground">
-                      {dummyBooking.venue}
+                      {dummyBooking.site}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {dummyBooking.facility}
                     </p>
                   </div>
 

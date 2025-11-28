@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { sampleBookings, getVenueById, sampleUser } from '@/data/venueData';
+import { sampleBookings, getVenueSiteById, getFacilityById, sampleUser } from '@/data/venueData';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -160,7 +160,8 @@ const BookingDetails = () => {
 
   const bookingId = id?.toLowerCase() || '';
   const booking = sampleBookings.find(b => b.id.toLowerCase() === bookingId);
-  const venue = booking ? getVenueById(booking.venueId) : null;
+  const site = booking ? getVenueSiteById(booking.venueSiteId) : null;
+  const facility = booking ? getFacilityById(booking.venueSiteId, booking.facilityId) : null;
   const departmentApprovals = getDepartmentApprovals(bookingId);
   const documents = getDocuments(bookingId);
   const messages = getMessages(bookingId, isRTL);
@@ -293,7 +294,10 @@ const BookingDetails = () => {
                   <div className={cn("flex flex-wrap gap-4 text-sm text-muted-foreground", isRTL && "flex-row-reverse")}>
                     <span className={cn("flex items-center gap-2", isRTL && "flex-row-reverse")}>
                       <MapPin className="w-4 h-4 text-primary" />
-                      {venue && (isRTL ? venue.nameAr : venue.name)}
+                      <span>
+                        {site && (isRTL ? site.nameAr : site.name)}
+                        {facility && ` • ${isRTL ? facility.nameAr : facility.name}`}
+                      </span>
                     </span>
                     <span className={cn("flex items-center gap-2", isRTL && "flex-row-reverse")}>
                       <Calendar className="w-4 h-4 text-primary" />

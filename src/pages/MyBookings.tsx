@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { sampleBookings, getVenueById, venues, sampleUser } from '@/data/venueData';
-import { Calendar, MapPin, Filter, FileText, Upload, XCircle, Eye, TrendingUp, Clock, CheckCircle } from 'lucide-react';
+import { sampleBookings, getVenueSiteById, getFacilityById, venueSites, sampleUser } from '@/data/venueData';
+import { Calendar, MapPin, Filter, FileText, Upload, XCircle, Eye, TrendingUp, Clock, CheckCircle, Building2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -69,7 +69,7 @@ const MyBookings = () => {
   const filteredBookings = useMemo(() => {
     return sampleBookings.filter((booking) => {
       const matchesStatus = statusFilter === 'All' || booking.status === statusFilter;
-      const matchesVenue = venueFilter === 'All' || booking.venueId === venueFilter;
+      const matchesVenue = venueFilter === 'All' || booking.venueSiteId === venueFilter;
       return matchesStatus && matchesVenue;
     });
   }, [statusFilter, venueFilter]);
@@ -194,20 +194,20 @@ const MyBookings = () => {
                   </Select>
                 </div>
 
-                {/* Venue Filter */}
+                {/* Venue Site Filter */}
                 <div className="space-y-2">
                   <label className={cn("text-sm font-medium text-foreground", isRTL && "block text-right")}>
-                    {isRTL ? 'المكان' : 'Venue'}
+                    {isRTL ? 'موقع المكان' : 'Venue Site'}
                   </label>
                   <Select value={venueFilter} onValueChange={setVenueFilter}>
                     <SelectTrigger className={cn(isRTL && "text-right")}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="All">{isRTL ? 'جميع الأماكن' : 'All Venues'}</SelectItem>
-                      {venues.map((venue) => (
-                        <SelectItem key={venue.id} value={venue.id}>
-                          {isRTL ? venue.nameAr : venue.name}
+                      <SelectItem value="All">{isRTL ? 'جميع المواقع' : 'All Sites'}</SelectItem>
+                      {venueSites.map((site) => (
+                        <SelectItem key={site.id} value={site.id}>
+                          {isRTL ? site.nameAr : site.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -230,7 +230,7 @@ const MyBookings = () => {
                       {isRTL ? 'عنوان الفعالية' : 'Event Title'}
                     </TableHead>
                     <TableHead className={cn(isRTL && "text-right")}>
-                      {isRTL ? 'المكان' : 'Venue'}
+                      {isRTL ? 'الموقع / المرفق' : 'Site / Facility'}
                     </TableHead>
                     <TableHead className={cn(isRTL && "text-right")}>
                       {isRTL ? 'التاريخ' : 'Date'}
@@ -252,7 +252,8 @@ const MyBookings = () => {
                     </TableRow>
                   ) : (
                     filteredBookings.map((booking) => {
-                      const venue = getVenueById(booking.venueId);
+                      const site = getVenueSiteById(booking.venueSiteId);
+                      const facility = getFacilityById(booking.venueSiteId, booking.facilityId);
                       return (
                         <TableRow key={booking.id}>
                           <TableCell className="font-mono text-sm">{booking.id}</TableCell>
@@ -260,7 +261,15 @@ const MyBookings = () => {
                             {isRTL ? booking.eventNameAr : booking.eventName}
                           </TableCell>
                           <TableCell>
-                            {venue && (isRTL ? venue.nameAr : venue.name)}
+                            <div className="space-y-1">
+                              <div className={cn("flex items-center gap-1 text-sm", isRTL && "flex-row-reverse")}>
+                                <Building2 className="w-3 h-3 text-primary" />
+                                {site && (isRTL ? site.nameAr : site.name)}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {facility && (isRTL ? facility.nameAr : facility.name)}
+                              </div>
+                            </div>
                           </TableCell>
                           <TableCell>
                             {new Date(booking.date).toLocaleDateString(isRTL ? 'ar-AE' : 'en-US', {
@@ -335,7 +344,8 @@ const MyBookings = () => {
               </Card>
             ) : (
               filteredBookings.map((booking) => {
-                const venue = getVenueById(booking.venueId);
+                const site = getVenueSiteById(booking.venueSiteId);
+                const facility = getFacilityById(booking.venueSiteId, booking.facilityId);
                 return (
                   <Card key={booking.id}>
                     <CardHeader className="pb-3">
@@ -355,9 +365,12 @@ const MyBookings = () => {
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-3">
-                      <div className={cn("flex items-center gap-2 text-sm text-muted-foreground", isRTL && "flex-row-reverse")}>
-                        <MapPin className="w-4 h-4 flex-shrink-0" />
-                        <span>{venue && (isRTL ? venue.nameAr : venue.name)}</span>
+                      <div className={cn("flex items-center gap-2 text-sm", isRTL && "flex-row-reverse")}>
+                        <Building2 className="w-4 h-4 text-primary flex-shrink-0" />
+                        <div className={isRTL ? "text-right" : ""}>
+                          <span className="font-medium">{site && (isRTL ? site.nameAr : site.name)}</span>
+                          <span className="text-muted-foreground"> • {facility && (isRTL ? facility.nameAr : facility.name)}</span>
+                        </div>
                       </div>
                       <div className={cn("flex items-center gap-2 text-sm text-muted-foreground", isRTL && "flex-row-reverse")}>
                         <Calendar className="w-4 h-4 flex-shrink-0" />
