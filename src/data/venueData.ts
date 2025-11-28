@@ -60,18 +60,18 @@ export const venues: Venue[] = [
     eventTagsAr: ['مؤتمر', 'عرض تقديمي', 'عرض فني', 'حفل توزيع جوائز']
   },
   {
-    id: 'mobility-district',
-    name: 'Mobility District Plaza',
-    nameAr: 'ساحة منطقة التنقل',
+    id: 'jubilee-park',
+    name: 'Jubilee Park',
+    nameAr: 'حديقة اليوبيل',
     type: 'outdoor',
     category: 'plaza',
     typeLabel: 'Outdoor Plaza',
     typeLabelAr: 'ساحة خارجية',
     capacity: 2000,
-    description: 'An expansive outdoor space showcasing the future of mobility, perfect for exhibitions, product launches, and outdoor gatherings.',
-    descriptionAr: 'مساحة خارجية واسعة تعرض مستقبل التنقل، مثالية للمعارض وإطلاق المنتجات والتجمعات الخارجية.',
-    eventTags: ['Exhibition', 'Product Launch', 'Corporate Event', 'Outdoor Gathering'],
-    eventTagsAr: ['معرض', 'إطلاق منتج', 'فعالية مؤسسية', 'تجمع خارجي']
+    description: 'A beautiful outdoor park space perfect for exhibitions, product launches, festivals, and outdoor gatherings.',
+    descriptionAr: 'مساحة حديقة خارجية جميلة مثالية للمعارض وإطلاق المنتجات والمهرجانات والتجمعات الخارجية.',
+    eventTags: ['Exhibition', 'Product Launch', 'Festival', 'Outdoor Gathering'],
+    eventTagsAr: ['معرض', 'إطلاق منتج', 'مهرجان', 'تجمع خارجي']
   },
   {
     id: 'conference-centre-a',
@@ -103,7 +103,7 @@ export const sampleBookings: Booking[] = [
     id: 'EVD-2025-002',
     eventName: 'Global Mobility Forum',
     eventNameAr: 'منتدى التنقل العالمي',
-    venueId: 'mobility-district',
+    venueId: 'jubilee-park',
     date: '2025-03-22',
     status: 'Approved',
     statusAr: 'موافق عليه'
