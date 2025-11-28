@@ -1,3 +1,10 @@
+import alWaslPlaza from '@/assets/venues/al-wasl-plaza.jpg';
+import terraAuditorium from '@/assets/venues/terra-auditorium.webp';
+import jubileePark from '@/assets/venues/jubilee-park.png';
+import conferenceCentreA from '@/assets/venues/conference-centre-a.png';
+import alif from '@/assets/venues/alif.png';
+import surreal from '@/assets/venues/surreal.png';
+
 export interface Venue {
   id: string;
   name: string;
@@ -44,7 +51,7 @@ export const venues: Venue[] = [
     descriptionAr: 'النقطة المحورية المميزة في إكسبو سيتي دبي، تتميز بقبة شبكية مذهلة مثالية للفعاليات الكبيرة وعروض الإسقاط المذهلة.',
     eventTags: ['Concert', 'Festival', 'Corporate Event', 'Gala'],
     eventTagsAr: ['حفلة موسيقية', 'مهرجان', 'فعالية مؤسسية', 'حفل'],
-    image: '/src/assets/venues/al-wasl-plaza.jpg'
+    image: alWaslPlaza
   },
   {
     id: 'terra-auditorium',
@@ -59,7 +66,7 @@ export const venues: Venue[] = [
     descriptionAr: 'قاعة حديثة مجهزة بأحدث التقنيات الصوتية والمرئية، مثالية للمؤتمرات والعروض التقديمية والحفلات.',
     eventTags: ['Conference', 'Presentation', 'Performance', 'Award Ceremony'],
     eventTagsAr: ['مؤتمر', 'عرض تقديمي', 'عرض فني', 'حفل توزيع جوائز'],
-    image: '/src/assets/venues/terra-auditorium.webp'
+    image: terraAuditorium
   },
   {
     id: 'jubilee-park',
@@ -74,7 +81,7 @@ export const venues: Venue[] = [
     descriptionAr: 'مساحة حديقة خارجية جميلة مثالية للمعارض وإطلاق المنتجات والمهرجانات والتجمعات الخارجية.',
     eventTags: ['Exhibition', 'Product Launch', 'Festival', 'Outdoor Gathering'],
     eventTagsAr: ['معرض', 'إطلاق منتج', 'مهرجان', 'تجمع خارجي'],
-    image: '/src/assets/venues/jubilee-park.png'
+    image: jubileePark
   },
   {
     id: 'conference-centre-a',
@@ -89,7 +96,7 @@ export const venues: Venue[] = [
     descriptionAr: 'قاعة مؤتمرات متعددة الاستخدامات مجهزة بأحدث المرافق، مناسبة للاجتماعات المؤسسية والندوات وورش العمل.',
     eventTags: ['Conference', 'Seminar', 'Workshop', 'Corporate Meeting'],
     eventTagsAr: ['مؤتمر', 'ندوة', 'ورشة عمل', 'اجتماع مؤسسي'],
-    image: '/src/assets/venues/conference-centre-a.png'
+    image: conferenceCentreA
   },
   {
     id: 'alif',
@@ -104,7 +111,7 @@ export const venues: Venue[] = [
     descriptionAr: 'ألف يثير الحماس والفضول حول الابتكار والمستقبل، وينقل المستكشفين عبر الزمن وآفاق جديدة لاكتشاف كيف دفع التنقل التقدم البشري ومكننا من كسر حدود جديدة. أي مكان أفضل لاستضافة فعاليتك الملهمة والمتطلعة للمستقبل؟',
     eventTags: ['Exhibition', 'Corporate Event', 'Product Launch', 'Innovation Forum'],
     eventTagsAr: ['معرض', 'فعالية مؤسسية', 'إطلاق منتج', 'منتدى الابتكار'],
-    image: '/src/assets/venues/alif.png'
+    image: alif
   },
   {
     id: 'surreal',
@@ -119,7 +126,7 @@ export const venues: Venue[] = [
     descriptionAr: 'معلم مائي مذهل في إكسبو سيتي دبي يمزج بين المناظر والأصوات الساحرة في عرض متزامن من الموسيقى والماء والنار. مع جدران شاهقة من الماء تجتاحها الأمواج المتدفقة، توفر هذه المساحة النابضة بالحياة والملونة مكانًا غامرًا لفعاليتك.',
     eventTags: ['Reception', 'Private Event', 'Gala', 'Networking'],
     eventTagsAr: ['حفل استقبال', 'فعالية خاصة', 'حفل', 'تواصل'],
-    image: '/src/assets/venues/surreal.png'
+    image: surreal
   }
 ];
 
