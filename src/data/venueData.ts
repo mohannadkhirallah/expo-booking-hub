@@ -89,17 +89,17 @@ export const venues: Venue[] = [
   },
   {
     id: 'alif',
-    name: 'Alif',
-    nameAr: 'ألف',
-    type: 'indoor',
-    category: 'auditorium',
-    typeLabel: 'Indoor Exhibition Space',
-    typeLabelAr: 'مساحة معرض داخلية',
+    name: 'Alif: The Bowl',
+    nameAr: 'ألف: الحلبة',
+    type: 'outdoor',
+    category: 'plaza',
+    typeLabel: 'Outdoor Exhibition Space',
+    typeLabelAr: 'مساحة معرض خارجية',
     capacity: 600,
-    description: 'An award-winning sustainable building featuring innovative exhibition spaces, perfect for eco-focused events and corporate showcases.',
-    descriptionAr: 'مبنى مستدام حائز على جوائز يضم مساحات عرض مبتكرة، مثالي للفعاليات البيئية والعروض المؤسسية.',
-    eventTags: ['Exhibition', 'Corporate Event', 'Product Launch', 'Sustainability Forum'],
-    eventTagsAr: ['معرض', 'فعالية مؤسسية', 'إطلاق منتج', 'منتدى الاستدامة']
+    description: 'Alif sparks excitement and curiosity about innovation and the future, transporting explorers through time and across new horizons to discover how mobility has driven human progress and enabled us to break new frontiers. What better place to host your inspiring, forward-thinking event?',
+    descriptionAr: 'ألف يثير الحماس والفضول حول الابتكار والمستقبل، وينقل المستكشفين عبر الزمن وآفاق جديدة لاكتشاف كيف دفع التنقل التقدم البشري ومكننا من كسر حدود جديدة. أي مكان أفضل لاستضافة فعاليتك الملهمة والمتطلعة للمستقبل؟',
+    eventTags: ['Exhibition', 'Corporate Event', 'Product Launch', 'Innovation Forum'],
+    eventTagsAr: ['معرض', 'فعالية مؤسسية', 'إطلاق منتج', 'منتدى الابتكار']
   },
   {
     id: 'surreal',
