@@ -24,6 +24,8 @@ const Login = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirectUrl = searchParams.get('redirect');
+  const venueParam = searchParams.get('venue');
+  const facilityParam = searchParams.get('facility');
 
   // Sign In state
   const [signInEmail, setSignInEmail] = useState('');
@@ -70,7 +72,12 @@ const Login = () => {
 
     // Navigate based on redirect parameter or default to my-bookings
     if (redirectUrl) {
-      navigate(redirectUrl);
+      let finalUrl = redirectUrl;
+      const params = new URLSearchParams();
+      if (venueParam) params.set('venue', venueParam);
+      if (facilityParam) params.set('facility', facilityParam);
+      if (params.toString()) finalUrl += `?${params.toString()}`;
+      navigate(finalUrl);
     } else {
       navigate('/my-bookings');
     }
@@ -112,7 +119,12 @@ const Login = () => {
 
   const handleContinueAfterRegistration = () => {
     if (redirectUrl) {
-      navigate(redirectUrl);
+      let finalUrl = redirectUrl;
+      const params = new URLSearchParams();
+      if (venueParam) params.set('venue', venueParam);
+      if (facilityParam) params.set('facility', facilityParam);
+      if (params.toString()) finalUrl += `?${params.toString()}`;
+      navigate(finalUrl);
     } else {
       navigate('/my-bookings');
     }
