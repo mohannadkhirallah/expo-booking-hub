@@ -100,7 +100,7 @@ const generateCalendarData = (venueId: string) => {
   for (let i = 1; i <= daysInMonth; i++) {
     // Check if there's a booking for this venue on this day
     const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-    const hasBooking = sampleBookings.some(b => b.venueId === venueId && b.date === dateStr);
+    const hasBooking = sampleBookings.some(b => b.facilityId === venueId && b.date === dateStr);
     
     let status: 'available' | 'busy' | 'booked' = 'available';
     if (hasBooking) {

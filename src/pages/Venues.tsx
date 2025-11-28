@@ -2,8 +2,8 @@ import { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { venues } from '@/data/venueData';
-import { Users, MapPin, Search, Filter, Calendar, ChevronDown, Eye, Zap } from 'lucide-react';
+import { venueSites, getFacilityTypes, getFacilityTypeLabel, getMaxCapacity, FacilityType } from '@/data/venueData';
+import { Users, MapPin, Search, Filter, Calendar, ChevronDown, Eye, Zap, Building2, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -32,39 +32,44 @@ import { format } from 'date-fns';
 const Venues = () => {
   const { language, isRTL } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
-  const [venueType, setVenueType] = useState<string>('all');
+  const [facilityType, setFacilityType] = useState<string>('all');
   const [capacityRange, setCapacityRange] = useState<string>('all');
   const [preferredDate, setPreferredDate] = useState<Date | undefined>();
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  // Filter venues based on selected criteria
-  const filteredVenues = venues.filter(venue => {
+  // Filter venue sites based on selected criteria
+  const filteredSites = venueSites.filter(site => {
     const matchesSearch = searchQuery === '' || 
-      venue.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      venue.nameAr.includes(searchQuery) ||
-      venue.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      venue.descriptionAr.includes(searchQuery);
+      site.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      site.nameAr.includes(searchQuery) ||
+      site.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      site.descriptionAr.includes(searchQuery) ||
+      site.facilities.some(f => 
+        f.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        f.nameAr.includes(searchQuery)
+      );
 
-    const matchesType = venueType === 'all' || 
-      venue.type === venueType || 
-      venue.category === venueType;
+    const matchesFacilityType = facilityType === 'all' ||
+      site.facilities.some(f => f.type === facilityType);
 
     const matchesCapacity = capacityRange === 'all' ||
-      (capacityRange === '0-500' && venue.capacity <= 500) ||
-      (capacityRange === '500-1000' && venue.capacity > 500 && venue.capacity <= 1000) ||
-      (capacityRange === '1000-3000' && venue.capacity > 1000 && venue.capacity <= 3000) ||
-      (capacityRange === '3000+' && venue.capacity > 3000);
+      site.facilities.some(f => {
+        const maxCap = getMaxCapacity(f.capacity);
+        return (capacityRange === '0-500' && maxCap <= 500) ||
+          (capacityRange === '500-1000' && maxCap > 500 && maxCap <= 1000) ||
+          (capacityRange === '1000-3000' && maxCap > 1000 && maxCap <= 3000) ||
+          (capacityRange === '3000+' && maxCap > 3000);
+      });
 
-    return matchesSearch && matchesType && matchesCapacity;
+    return matchesSearch && matchesFacilityType && matchesCapacity;
   });
 
-  const venueTypeOptions = [
+  const facilityTypeOptions = [
     { value: 'all', label: isRTL ? 'جميع الأنواع' : 'All Types' },
-    { value: 'indoor', label: isRTL ? 'داخلي' : 'Indoor' },
-    { value: 'outdoor', label: isRTL ? 'خارجي' : 'Outdoor' },
-    { value: 'conference', label: isRTL ? 'قاعة مؤتمرات' : 'Conference Hall' },
-    { value: 'plaza', label: isRTL ? 'ساحة' : 'Plaza' },
-    { value: 'auditorium', label: isRTL ? 'قاعة عروض' : 'Auditorium' },
+    ...getFacilityTypes().map(type => ({
+      value: type,
+      label: getFacilityTypeLabel(type, isRTL)
+    }))
   ];
 
   const capacityOptions = [
@@ -94,13 +99,13 @@ const Venues = () => {
         />
       </div>
 
-      {/* Venue Type */}
-      <Select value={venueType} onValueChange={setVenueType}>
+      {/* Facility Type */}
+      <Select value={facilityType} onValueChange={setFacilityType}>
         <SelectTrigger className="h-11">
-          <SelectValue placeholder={isRTL ? 'نوع المكان' : 'Venue Type'} />
+          <SelectValue placeholder={isRTL ? 'نوع المرفق' : 'Facility Type'} />
         </SelectTrigger>
         <SelectContent>
-          {venueTypeOptions.map(option => (
+          {facilityTypeOptions.map(option => (
             <SelectItem key={option.value} value={option.value}>
               {option.label}
             </SelectItem>
@@ -168,12 +173,12 @@ const Venues = () => {
             </div>
             
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              {isRTL ? 'استكشف أماكننا' : 'Explore Our Venues'}
+              {isRTL ? 'استكشف مواقعنا' : 'Explore Our Venue Sites'}
             </h1>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               {isRTL 
-                ? 'اكتشف مجموعتنا من الأماكن ذات المستوى العالمي المتاحة للفعاليات والمؤتمرات والمناسبات الخاصة.'
-                : 'Discover our collection of world-class venues available for events, conferences, and special occasions.'}
+                ? 'اكتشف مواقعنا ذات المستوى العالمي، كل موقع يحتوي على مرافق متعددة للفعاليات والمؤتمرات.'
+                : 'Discover our world-class venue sites, each containing multiple facilities for events and conferences.'}
             </p>
           </div>
 
@@ -203,116 +208,138 @@ const Venues = () => {
           {/* Results Count */}
           <div className={cn("mb-6 text-sm text-muted-foreground", isRTL && "text-right")}>
             {isRTL 
-              ? `عرض ${filteredVenues.length} من ${venues.length} مكان`
-              : `Showing ${filteredVenues.length} of ${venues.length} venues`}
+              ? `عرض ${filteredSites.length} من ${venueSites.length} موقع`
+              : `Showing ${filteredSites.length} of ${venueSites.length} venue sites`}
           </div>
 
-          {/* Venue Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredVenues.map((venue, index) => (
-              <div
-                key={venue.id}
-                className={cn(
-                  "group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-[var(--card-shadow-hover)]",
-                  "animate-fade-in opacity-0 [animation-fill-mode:forwards]"
-                )}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                {/* Venue Image */}
-                <div className="relative h-52 bg-gradient-to-br from-primary/20 to-primary/5 overflow-hidden">
-                  {venue.image ? (
-                    <img 
-                      src={venue.image} 
-                      alt={language === 'ar' ? venue.nameAr : venue.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <MapPin className="w-16 h-16 text-primary/30" />
-                    </div>
+          {/* Venue Site Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {filteredSites.map((site, index) => {
+              const totalCapacity = site.facilities.reduce((sum, f) => sum + getMaxCapacity(f.capacity), 0);
+              return (
+                <div
+                  key={site.id}
+                  className={cn(
+                    "group bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-[var(--card-shadow-hover)]",
+                    "animate-fade-in opacity-0 [animation-fill-mode:forwards]"
                   )}
-                  {/* Type Badge */}
-                  <Badge 
-                    variant="secondary" 
-                    className={cn(
-                      "absolute top-4 bg-background/90 backdrop-blur-sm",
-                      isRTL ? "right-4" : "left-4"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  {/* Site Image */}
+                  <div className="relative h-52 bg-gradient-to-br from-primary/20 to-primary/5 overflow-hidden">
+                    {site.image ? (
+                      <img 
+                        src={site.image} 
+                        alt={language === 'ar' ? site.nameAr : site.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <MapPin className="w-16 h-16 text-primary/30" />
+                      </div>
                     )}
-                  >
-                    {venue.type === 'indoor' 
-                      ? (isRTL ? 'داخلي' : 'Indoor') 
-                      : (isRTL ? 'خارجي' : 'Outdoor')}
-                  </Badge>
-                </div>
+                    {/* Facilities Count Badge */}
+                    <Badge 
+                      variant="secondary" 
+                      className={cn(
+                        "absolute top-4 bg-background/90 backdrop-blur-sm gap-1",
+                        isRTL ? "right-4" : "left-4"
+                      )}
+                    >
+                      <Layers className="w-3 h-3" />
+                      {site.facilities.length} {isRTL ? 'مرافق' : 'spaces'}
+                    </Badge>
+                  </div>
 
-                <div className="p-6">
-                  {/* Venue Header */}
-                  <div className={cn("flex items-start justify-between gap-4 mb-3", isRTL && "flex-row-reverse")}>
-                    <div className={cn(isRTL && "text-right")}>
-                      <h3 className="text-xl font-semibold text-foreground mb-1">
-                        {language === 'ar' ? venue.nameAr : venue.name}
-                      </h3>
-                      <span className="text-sm text-primary font-medium">
-                        {language === 'ar' ? venue.typeLabelAr : venue.typeLabel}
-                      </span>
+                  <div className="p-6">
+                    {/* Site Header */}
+                    <div className={cn("flex items-start justify-between gap-4 mb-3", isRTL && "flex-row-reverse")}>
+                      <div className={cn(isRTL && "text-right")}>
+                        <h3 className="text-xl font-semibold text-foreground mb-1">
+                          {language === 'ar' ? site.nameAr : site.name}
+                        </h3>
+                        <span className="text-sm text-primary font-medium">
+                          {isRTL ? 'إكسبو سيتي دبي' : 'Expo City Dubai'}
+                        </span>
+                      </div>
+                      <div className={cn("flex items-center gap-1 text-muted-foreground shrink-0", isRTL && "flex-row-reverse")}>
+                        <Users className="w-4 h-4" />
+                        <span className="text-sm font-medium">{totalCapacity.toLocaleString()}</span>
+                      </div>
                     </div>
-                    <div className={cn("flex items-center gap-1 text-muted-foreground shrink-0", isRTL && "flex-row-reverse")}>
-                      <Users className="w-4 h-4" />
-                      <span className="text-sm font-medium">{venue.capacity.toLocaleString()}</span>
+
+                    {/* Description */}
+                    <p className={cn("text-muted-foreground text-sm mb-4 line-clamp-2", isRTL && "text-right")}>
+                      {language === 'ar' ? site.descriptionAr : site.description}
+                    </p>
+
+                    {/* Facilities List */}
+                    <div className={cn("mb-4 p-3 rounded-lg bg-muted/30", isRTL && "text-right")}>
+                      <p className={cn("text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1", isRTL && "flex-row-reverse")}>
+                        <Building2 className="w-3 h-3" />
+                        {isRTL ? 'يشمل:' : 'Includes:'}
+                      </p>
+                      <div className="space-y-1">
+                        {site.facilities.slice(0, 3).map((facility) => (
+                          <p key={facility.id} className="text-sm text-foreground">
+                            • {language === 'ar' ? facility.nameAr : facility.name}
+                          </p>
+                        ))}
+                        {site.facilities.length > 3 && (
+                          <p className="text-sm text-primary font-medium">
+                            +{site.facilities.length - 3} {isRTL ? 'مرافق أخرى' : 'more spaces'}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Event Tags */}
+                    <div className={cn("flex flex-wrap gap-2 mb-6", isRTL && "justify-end")}>
+                      {(language === 'ar' ? site.eventTagsAr : site.eventTags).slice(0, 3).map((tag, i) => (
+                        <Badge key={i} variant="outline" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className={cn("flex gap-3", isRTL && "flex-row-reverse")}>
+                      <Link to={`/venues/${site.id}`} className="flex-1">
+                        <Button variant="outline" size="sm" className={cn("w-full gap-2", isRTL && "flex-row-reverse")}>
+                          <Eye className="w-4 h-4" />
+                          {isRTL ? 'عرض المرافق' : 'View Facilities'}
+                        </Button>
+                      </Link>
+                      <Link to={`/login?redirect=/booking/step1&venue=${site.id}`} className="flex-1">
+                        <Button variant="hero" size="sm" className={cn("w-full gap-2", isRTL && "flex-row-reverse")}>
+                          <Zap className="w-4 h-4" />
+                          {isRTL ? 'ابدأ الحجز' : 'Start Booking'}
+                        </Button>
+                      </Link>
                     </div>
                   </div>
-
-                  {/* Description */}
-                  <p className={cn("text-muted-foreground text-sm mb-4 line-clamp-2", isRTL && "text-right")}>
-                    {language === 'ar' ? venue.descriptionAr : venue.description}
-                  </p>
-
-                  {/* Event Tags */}
-                  <div className={cn("flex flex-wrap gap-2 mb-6", isRTL && "justify-end")}>
-                    {(language === 'ar' ? venue.eventTagsAr : venue.eventTags).slice(0, 3).map((tag, i) => (
-                      <Badge key={i} variant="outline" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className={cn("flex gap-3", isRTL && "flex-row-reverse")}>
-                    <Link to={`/venues/${venue.id}`} className="flex-1">
-                      <Button variant="outline" size="sm" className={cn("w-full gap-2", isRTL && "flex-row-reverse")}>
-                        <Eye className="w-4 h-4" />
-                        {isRTL ? 'عرض التفاصيل' : 'View Details'}
-                      </Button>
-                    </Link>
-                    <Link to={`/login?redirect=/booking/step1&venue=${venue.id}`} className="flex-1">
-                      <Button variant="hero" size="sm" className={cn("w-full gap-2", isRTL && "flex-row-reverse")}>
-                        <Zap className="w-4 h-4" />
-                        {isRTL ? 'حجز سريع' : 'Quick Book'}
-                      </Button>
-                    </Link>
-                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* No Results */}
-          {filteredVenues.length === 0 && (
+          {filteredSites.length === 0 && (
             <div className="text-center py-16">
               <MapPin className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-foreground mb-2">
-                {isRTL ? 'لم يتم العثور على أماكن' : 'No Venues Found'}
+                {isRTL ? 'لم يتم العثور على مواقع' : 'No Venue Sites Found'}
               </h3>
               <p className="text-muted-foreground mb-6">
                 {isRTL 
-                  ? 'جرب تعديل معايير البحث للعثور على أماكن مناسبة.'
+                  ? 'جرب تعديل معايير البحث للعثور على مواقع مناسبة.'
                   : 'Try adjusting your search criteria to find suitable venues.'}
               </p>
               <Button 
                 variant="outline" 
                 onClick={() => {
                   setSearchQuery('');
-                  setVenueType('all');
+                  setFacilityType('all');
                   setCapacityRange('all');
                   setPreferredDate(undefined);
                 }}
