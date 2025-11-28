@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Sun, Moon, Globe, Menu, X, Lock, User } from 'lucide-react';
+import { Sun, Moon, Globe, Menu, X, User } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -41,9 +41,6 @@ const Header = () => {
               <Link key={link.to} to={link.to}>
                 <Button variant="nav" size="sm" className="relative">
                   {link.label}
-                  {link.requiresAuth && (
-                    <Lock className="w-3 h-3 opacity-50" />
-                  )}
                 </Button>
               </Link>
             ))}
@@ -110,9 +107,6 @@ const Header = () => {
                 >
                   <Button variant="ghost" className="w-full justify-start gap-2">
                     {link.label}
-                    {link.requiresAuth && (
-                      <Lock className="w-3 h-3 opacity-50" />
-                    )}
                   </Button>
                 </Link>
               ))}
