@@ -68,7 +68,7 @@ const HeroSection = () => {
                 <ArrowRight className={cn("w-5 h-5", isRTL && "rotate-180")} />
               </Button>
             </Link>
-            <Link to="/login">
+            <Link to="/login?redirect=/booking/step1">
               <Button variant="heroOutline" size="xl" className="backdrop-blur-xl bg-black/30 border-white/20">
                 {t('hero.startBooking')}
               </Button>
