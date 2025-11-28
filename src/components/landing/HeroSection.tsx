@@ -53,7 +53,7 @@ const HeroSection = () => {
 
           {/* Subtitle */}
           <p className={cn(
-            "text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto animate-slide-up",
+            "text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto animate-slide-up",
             "opacity-0 [animation-delay:0.2s] [animation-fill-mode:forwards]"
           )}>
             {t('hero.subtitle')}
