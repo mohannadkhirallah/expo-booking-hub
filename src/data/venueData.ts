@@ -3,11 +3,15 @@ export interface Venue {
   name: string;
   nameAr: string;
   type: 'outdoor' | 'indoor';
+  category: 'plaza' | 'auditorium' | 'conference';
   typeLabel: string;
   typeLabelAr: string;
   capacity: number;
   description: string;
   descriptionAr: string;
+  eventTags: string[];
+  eventTagsAr: string[];
+  image?: string;
 }
 
 export interface Booking {
@@ -32,44 +36,56 @@ export const venues: Venue[] = [
     name: 'Al Wasl Plaza',
     nameAr: 'ساحة الوصل',
     type: 'outdoor',
+    category: 'plaza',
     typeLabel: 'Outdoor Iconic Plaza',
     typeLabelAr: 'ساحة خارجية مميزة',
     capacity: 5000,
     description: 'The iconic centerpiece of Expo City Dubai, featuring a stunning trellis dome perfect for large-scale events and spectacular projection shows.',
-    descriptionAr: 'النقطة المحورية المميزة في إكسبو سيتي دبي، تتميز بقبة شبكية مذهلة مثالية للفعاليات الكبيرة وعروض الإسقاط المذهلة.'
+    descriptionAr: 'النقطة المحورية المميزة في إكسبو سيتي دبي، تتميز بقبة شبكية مذهلة مثالية للفعاليات الكبيرة وعروض الإسقاط المذهلة.',
+    eventTags: ['Concert', 'Festival', 'Corporate Event', 'Gala'],
+    eventTagsAr: ['حفلة موسيقية', 'مهرجان', 'فعالية مؤسسية', 'حفل']
   },
   {
     id: 'terra-auditorium',
     name: 'Terra Auditorium',
     nameAr: 'قاعة تيرا',
     type: 'indoor',
+    category: 'auditorium',
     typeLabel: 'Indoor Theatre',
     typeLabelAr: 'مسرح داخلي',
     capacity: 800,
     description: 'A state-of-the-art auditorium with world-class acoustics and audiovisual capabilities, ideal for conferences, presentations, and performances.',
-    descriptionAr: 'قاعة حديثة مجهزة بأحدث التقنيات الصوتية والمرئية، مثالية للمؤتمرات والعروض التقديمية والحفلات.'
+    descriptionAr: 'قاعة حديثة مجهزة بأحدث التقنيات الصوتية والمرئية، مثالية للمؤتمرات والعروض التقديمية والحفلات.',
+    eventTags: ['Conference', 'Presentation', 'Performance', 'Award Ceremony'],
+    eventTagsAr: ['مؤتمر', 'عرض تقديمي', 'عرض فني', 'حفل توزيع جوائز']
   },
   {
     id: 'mobility-district',
     name: 'Mobility District Plaza',
     nameAr: 'ساحة منطقة التنقل',
     type: 'outdoor',
+    category: 'plaza',
     typeLabel: 'Outdoor Plaza',
     typeLabelAr: 'ساحة خارجية',
     capacity: 2000,
     description: 'An expansive outdoor space showcasing the future of mobility, perfect for exhibitions, product launches, and outdoor gatherings.',
-    descriptionAr: 'مساحة خارجية واسعة تعرض مستقبل التنقل، مثالية للمعارض وإطلاق المنتجات والتجمعات الخارجية.'
+    descriptionAr: 'مساحة خارجية واسعة تعرض مستقبل التنقل، مثالية للمعارض وإطلاق المنتجات والتجمعات الخارجية.',
+    eventTags: ['Exhibition', 'Product Launch', 'Corporate Event', 'Outdoor Gathering'],
+    eventTagsAr: ['معرض', 'إطلاق منتج', 'فعالية مؤسسية', 'تجمع خارجي']
   },
   {
     id: 'conference-centre-a',
     name: 'Conference Centre – Hall A',
     nameAr: 'مركز المؤتمرات - القاعة أ',
     type: 'indoor',
+    category: 'conference',
     typeLabel: 'Indoor Conference Hall',
     typeLabelAr: 'قاعة مؤتمرات داخلية',
     capacity: 400,
     description: 'A versatile conference hall equipped with modern amenities, suitable for corporate meetings, seminars, and workshops.',
-    descriptionAr: 'قاعة مؤتمرات متعددة الاستخدامات مجهزة بأحدث المرافق، مناسبة للاجتماعات المؤسسية والندوات وورش العمل.'
+    descriptionAr: 'قاعة مؤتمرات متعددة الاستخدامات مجهزة بأحدث المرافق، مناسبة للاجتماعات المؤسسية والندوات وورش العمل.',
+    eventTags: ['Conference', 'Seminar', 'Workshop', 'Corporate Meeting'],
+    eventTagsAr: ['مؤتمر', 'ندوة', 'ورشة عمل', 'اجتماع مؤسسي']
   }
 ];
 

@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Index from "./pages/Index";
 import Venues from "./pages/Venues";
+import VenueDetail from "./pages/VenueDetail";
 import Login from "./pages/Login";
 import MyBookings from "./pages/MyBookings";
 import Guidelines from "./pages/Guidelines";
@@ -25,6 +26,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/venues" element={<Venues />} />
+              <Route path="/venues/:id" element={<VenueDetail />} />
               <Route path="/login" element={<Login />} />
               <Route path="/my-bookings" element={<MyBookings />} />
               <Route path="/guidelines" element={<Guidelines />} />
