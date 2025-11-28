@@ -177,8 +177,8 @@ const BookingStep3 = () => {
             <Info className="h-4 w-4 text-primary" />
             <AlertDescription className={cn("text-sm", isRTL && "text-right")}>
               {isRTL 
-                ? 'سيتم توجيه طلباتك إلى الأقسام المختصة في إكسبو سيتي دبي في Dynamics 365 بعد التقديم.'
-                : 'Your requests will be routed to the appropriate Expo City Dubai departments in Dynamics 365 after submission.'}
+                ? 'سيتم توجيه طلباتك إلى الأقسام المختصة في إكسبو سيتي دبي للمراجعة بعد التقديم.'
+                : 'Your requests will be routed to the appropriate Expo City Dubai departments for review after submission.'}
             </AlertDescription>
           </Alert>
 
