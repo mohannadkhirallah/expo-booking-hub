@@ -47,12 +47,6 @@ const Header = () => {
                 </Button>
               </Link>
             ))}
-            {/* Sign In Icon Button */}
-            <Link to="/login">
-              <Button variant="ghost" size="icon" aria-label={t('nav.signIn')}>
-                <User className="w-5 h-5" />
-              </Button>
-            </Link>
           </nav>
 
           {/* Right Controls */}
@@ -60,6 +54,13 @@ const Header = () => {
             "flex items-center gap-2",
             isRTL && "flex-row-reverse"
           )}>
+            {/* Sign In Icon Button */}
+            <Link to="/login" className="hidden lg:block">
+              <Button variant="ghost" size="icon" aria-label={t('nav.signIn')}>
+                <User className="w-5 h-5" />
+              </Button>
+            </Link>
+
             {/* Language Toggle */}
             <Button
               variant="ghost"
