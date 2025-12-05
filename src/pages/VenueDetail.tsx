@@ -15,12 +15,18 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
+// Import venue images
+import alWaslPlazaImg from '@/assets/venues/al-wasl-plaza.jpg';
+import terraImg from '@/assets/venues/terra-auditorium.webp';
+import alifImg from '@/assets/venues/alif.png';
+import jubileeParkImg from '@/assets/venues/jubilee-park.png';
+
 // Venue images mapping
 const venueImages: Record<string, string> = {
-  'al-wasl-plaza': '/src/assets/venues/al-wasl-plaza.jpg',
-  'terra': '/src/assets/venues/terra-auditorium.webp',
-  'mobility-district': '/src/assets/venues/alif.png',
-  'conference-parks': '/src/assets/venues/jubilee-park.png',
+  'al-wasl-plaza': alWaslPlazaImg,
+  'terra': terraImg,
+  'mobility-district': alifImg,
+  'conference-parks': jubileeParkImg,
 };
 
 // Amenities data
